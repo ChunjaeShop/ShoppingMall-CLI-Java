@@ -5,5 +5,7 @@ public class Main {
         System.out.println("gittest3");
         System.out.println("gittest4");
         System.out.println("git test5");
+        System.out.println("git test지혜");
+
     }
 }
