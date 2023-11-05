@@ -68,4 +68,31 @@ public class ItemDAO {
         System.out.println("상품수정실패");
         return false;
     }
+
+    public boolean updateItemInfo(Item item){
+        try {
+
+            String sql =
+                    "Update item SET item_name = ?, " +
+                            "size = ?, remain = ?, " +
+                            "price = ?, item_contents = ? " +
+                            "WHERE item_id=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, item.getItemName());
+            pstmt.setString(2, item.getSize());
+            pstmt.setInt(3, item.getRemain());
+            pstmt.setInt(4, item.getPrice());
+            pstmt.setString(5, item.getContent());
+            pstmt.setInt(6, item.getItemId());
+            pstmt.executeUpdate();
+            pstmt.close();
+            System.out.println("상품전체수정완료");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("상품전체수정실패");
+        return false;
+    }
 }
