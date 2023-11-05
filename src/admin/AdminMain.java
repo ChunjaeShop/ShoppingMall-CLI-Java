@@ -103,8 +103,45 @@ public class AdminMain {
 
             switch (menuNo) {
                 case "1":
+                    enrollItem(); // 3-1-1
             }
         } while (!menuNo.equals("1") && !menuNo.equals("2") && !menuNo.equals("3"));
+    }
+
+    public void enrollItem(){ // 3-1-1 상품등록
+        Item item = new Item();
+        System.out.println("-----------------------[ 상품 등록 ]----------------------");
+        System.out.print("상품명: ");
+        item.setItemName(scanner.nextLine());
+        System.out.print("카테고리: ");
+        item.setCategoryId(scanner.nextLine());
+        System.out.print("사이즈: ");
+        item.setSize(scanner.nextLine());
+        System.out.print("가격: ");
+        item.setPrice(scanner.nextInt());
+        System.out.print("재고: ");
+        item.setRemain(scanner.nextInt());
+        scanner.nextLine();
+
+        System.out.println("-------------------------------------------------------------------------");
+        System.out.println("메뉴: 1.상품등록완료 | 9.뒤로가기");
+        System.out.print("메뉴 선택: ");
+        String subMenuNo = scanner.nextLine();
+        if (subMenuNo.equals("1")) {
+            try {
+                ItemDAO itemDAO = new ItemDAO();
+                itemDAO.setConnection(conn);
+                boolean insertFlag = itemDAO.insertItem(item);
+                if(insertFlag)
+                    System.out.println("상품등록SQL성공");
+                else System.out.println("상품등록실패");
+
+
+            }catch (Exception e){
+
+            }
+        }
+
     }
 
 
