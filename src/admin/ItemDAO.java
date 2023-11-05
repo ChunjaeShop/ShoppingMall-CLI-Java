@@ -1,9 +1,6 @@
 package admin;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ItemDAO {
     private static ItemDAO itemDAO;
@@ -50,6 +47,25 @@ public class ItemDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
+    }
+
+    public boolean updateItemRemain(int itemId, int newRemain){
+        try {
+            String sql =
+                    "Update item set remain = COALESCE(?, remain) " +
+                            "WHERE item_id=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, newRemain);
+            pstmt.setInt(2, itemId);
+            pstmt.executeUpdate();
+            pstmt.close();
+            System.out.println("상품수정완료");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("상품수정실패");
         return false;
     }
 }
