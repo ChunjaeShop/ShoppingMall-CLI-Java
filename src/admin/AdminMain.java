@@ -104,6 +104,9 @@ public class AdminMain {
             switch (menuNo) {
                 case "1":
                     enrollItem(); // 3-1-1
+                    break;
+                case "2":
+                    editItemMenu(); // 3-1-2
             }
         } while (!menuNo.equals("1") && !menuNo.equals("2") && !menuNo.equals("3"));
     }
@@ -131,18 +134,40 @@ public class AdminMain {
             try {
                 ItemDAO itemDAO = new ItemDAO();
                 itemDAO.setConnection(conn);
-                boolean insertFlag = itemDAO.insertItem(item);
-                if(insertFlag)
-                    System.out.println("상품등록SQL성공");
+                if(itemDAO.insertItem(item))
+                    listSubmenu();
                 else System.out.println("상품등록실패");
-
-
             }catch (Exception e){
 
             }
         }
 
     }
+
+    public void editItemMenu() { // 3-1-2 상품정보수정 메뉴
+        System.out.println("-------------------------------------------------------------------------");
+        System.out.print("수정할 상품 ID : ");
+        int itemId = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("수정 메뉴: 1.재고수정  2.정보전체수정  9.뒤로가기");
+        System.out.print("메뉴 선택: ");
+        String subMenuNo = scanner.nextLine();
+        if (subMenuNo.equals("1")) {    // 3-1-2-1 재고수정
+            System.out.print("["+itemId+"] 수정할 재고 : ");
+            int newRemain = scanner.nextInt();
+            try {
+                ItemDAO itemDAO = new ItemDAO();
+                itemDAO.setConnection(conn);
+                if(itemDAO.updateItemRemain(itemId, newRemain))
+                    listSubmenu();
+                else System.out.println("상품등록실패");
+            }catch (Exception e){
+
+            }
+        }
+
+    }
+
 
 
 
