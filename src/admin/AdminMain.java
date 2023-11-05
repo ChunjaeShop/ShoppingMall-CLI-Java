@@ -29,8 +29,7 @@ public class AdminMain {
 
             switch (menuNo) {
                 case "1":
-                    AllItemList(); // 3-1
-                    listSubmenu(); // 3-1 submenu
+                    listSubmenu(); // 3-1
                     break;
                 case "2":
                     //DetailItemSearch();
@@ -45,11 +44,12 @@ public class AdminMain {
                     System.out.println("유효하지 않은 메뉴입니다.");
 
             }
-        }while(!menuNo.equals("1")  && !menuNo.equals("2"));
+        } while (!menuNo.equals("1") && !menuNo.equals("2"));
+        System.out.println("mainMenu종료");
     }
 
 
-    public void AllItemList() { // 3-1. 상품전체보기 화면
+    public void allItemList() { // 3-1. 상품전체보기 화면
         // 타이틀 및 컬럼명 출력
         System.out.println();
         System.out.println("［상품 전체 보기］");
@@ -94,11 +94,13 @@ public class AdminMain {
 
     public void listSubmenu() { // 3-1 submenu
         String menuNo;
+        boolean stat = true;
         do {
+            allItemList();
             System.out.println("-----------------------------------------------------------------------------------");
             System.out.println("[1.상품등록]   [2.상품정보수정]   [3.상품삭제]   [9.뒤로가기]");
             System.out.println("-----------------------------------------------------------------------------------");
-            System.out.println("메뉴 선택 :");
+            System.out.print("메뉴 선택 : ");
             menuNo = scanner.nextLine();
 
             switch (menuNo) {
@@ -107,11 +109,17 @@ public class AdminMain {
                     break;
                 case "2":
                     editItemMenu(); // 3-1-2
+                    break;
+                case "3":
+                    break;
+                case "9":
+
             }
-        } while (!menuNo.equals("1") && !menuNo.equals("2") && !menuNo.equals("3"));
+        } while (stat);
+        System.out.println("listSubmenu종료"); // test code
     }
 
-    public void enrollItem(){ // 3-1-1 상품등록
+    public void enrollItem() { // 3-1-1 상품등록
         Item item = new Item();
         System.out.println("-----------------------[ 상품 등록 ]----------------------");
         System.out.print("상품명: ");
@@ -134,10 +142,10 @@ public class AdminMain {
             try {
                 ItemDAO itemDAO = new ItemDAO();
                 itemDAO.setConnection(conn);
-                if(itemDAO.insertItem(item))
+                if (itemDAO.insertItem(item))
                     listSubmenu();
                 else System.out.println("상품등록실패");
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }
@@ -153,23 +161,60 @@ public class AdminMain {
         System.out.print("메뉴 선택: ");
         String subMenuNo = scanner.nextLine();
         if (subMenuNo.equals("1")) {    // 3-1-2-1 재고수정
-            System.out.print("["+itemId+"] 수정할 재고 : ");
+            System.out.print("[" + itemId + "] 수정할 재고 : ");
             int newRemain = scanner.nextInt();
             try {
                 ItemDAO itemDAO = new ItemDAO();
                 itemDAO.setConnection(conn);
-                if(itemDAO.updateItemRemain(itemId, newRemain))
+                if (itemDAO.updateItemRemain(itemId, newRemain))
                     listSubmenu();
-                else System.out.println("상품등록실패");
-            }catch (Exception e){
+                else
+                    System.out.println("상품등록실패");
+            } catch (Exception e) {
 
             }
+        } else if (subMenuNo.equals("2")) {    // 3-1-2-2 정보전체수정
+            editItemAll(itemId);
+
+        } else if (subMenuNo.equals("9")) {    // 3-1-2-9 뒤로가기
+            allItemList();
+            listSubmenu();
+
         }
 
     }
 
+    public void editItemAll(int itemId) { // 3-1-2-2 상품정보수정(정보전체수정)
+        Item item = new Item();
+        item.setItemId(itemId);
+        System.out.println("-----------------------[ 상품 정보 수정 ]----------------------");
+        System.out.print("상품명: ");
+        item.setItemName(scanner.nextLine());
+        System.out.print("사이즈: ");
+        item.setSize(scanner.nextLine());
+        System.out.print("가격: ");
+        item.setPrice(scanner.nextInt());
+        System.out.print("재고: ");
+        item.setRemain(scanner.nextInt());
+        scanner.nextLine();
+        System.out.print("상품설명: ");
+        item.setContent(scanner.nextLine());
 
+        System.out.println("-------------------------------------------------------------------------");
+        System.out.println("메뉴: 1.수정 | 9.뒤로가기");
+        System.out.print("메뉴 선택: ");
+        String subMenuNo = scanner.nextLine();
+        if (subMenuNo.equals("1")) {
+            try {
+                ItemDAO itemDAO = new ItemDAO();
+                itemDAO.setConnection(conn);
+                if (itemDAO.updateItemInfo(item)) {
+                    allItemList();
+                    listSubmenu();
+                } else System.out.println("상품전체수정실패AdminMain");
+            } catch (Exception e) {
 
-
-
+            }
+        }
+    }
 }
