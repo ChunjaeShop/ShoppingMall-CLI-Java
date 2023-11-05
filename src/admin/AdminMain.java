@@ -18,6 +18,7 @@ public class AdminMain {
         this.conn = conn;
         System.out.println();
         String menuNo;
+        boolean stat = true;
 
         do {
             System.out.println("-----------------------------------------------------------------------------------");
@@ -29,10 +30,10 @@ public class AdminMain {
 
             switch (menuNo) {
                 case "1":
-                    listSubmenu(); // 3-1
+                    stat = listSubmenu(); // 3-1
                     break;
                 case "2":
-                    //DetailItemSearch();
+                    //stat = orderListMenu(); // 3-2
                     break;
                 case "4":
                     //itemRank();
@@ -44,7 +45,7 @@ public class AdminMain {
                     System.out.println("유효하지 않은 메뉴입니다.");
 
             }
-        }while(!menuNo.equals("1")  && !menuNo.equals("2"));
+        }while(stat);
         System.out.println("mainMenu종료");
     }
 
@@ -92,7 +93,7 @@ public class AdminMain {
         }
     }
 
-    public void listSubmenu() { // 3-1 submenu
+    public boolean listSubmenu() { // 3-1 submenu
         String menuNo;
         boolean stat = true;
         do {
@@ -105,10 +106,10 @@ public class AdminMain {
 
             switch (menuNo) {
                 case "1":
-                    enrollItem(); // 3-1-1
+                    stat = enrollItem(); // 3-1-1
                     break;
                 case "2":
-                    editItemMenu(); // 3-1-2
+                    stat = editItemMenu(); // 3-1-2
                     break;
                 case "3":
                     stat = removeItem();   // 3-1-3
@@ -119,9 +120,10 @@ public class AdminMain {
             }
         } while (stat);
         System.out.println("listSubmenu종료"); // test code
+        return false;
     }
 
-    public void enrollItem(){ // 3-1-1 상품등록
+    public boolean enrollItem(){ // 3-1-1 상품등록
         Item item = new Item();
         System.out.println("-----------------------[ 상품 등록 ]----------------------");
         System.out.print("상품명: ");
@@ -145,16 +147,17 @@ public class AdminMain {
                 ItemDAO itemDAO = new ItemDAO();
                 itemDAO.setConnection(conn);
                 if(itemDAO.insertItem(item))
-                    listSubmenu();
+                    return true;
                 else System.out.println("상품등록실패");
             }catch (Exception e){
 
             }
         }
 
+        return false;
     }
 
-    public void editItemMenu() { // 3-1-2 상품정보수정 메뉴
+    public boolean editItemMenu() { // 3-1-2 상품정보수정 메뉴
         System.out.println("-------------------------------------------------------------------------");
         System.out.print("수정할 상품 ID : ");
         int itemId = scanner.nextInt();
@@ -169,7 +172,7 @@ public class AdminMain {
                 ItemDAO itemDAO = new ItemDAO();
                 itemDAO.setConnection(conn);
                 if(itemDAO.updateItemRemain(itemId, newRemain))
-                    listSubmenu();
+                    return true;
                 else
                     System.out.println("상품등록실패");
             }catch (Exception e){
@@ -177,13 +180,14 @@ public class AdminMain {
             }
         } else if (subMenuNo.equals("2")) {    // 3-1-2-2 정보전체수정
             editItemAll(itemId);
+            return true;
 
         } else if (subMenuNo.equals("9")) {    // 3-1-2-9 뒤로가기
-            allItemList();
-            listSubmenu();
+            return true;
 
         }
 
+        return false;
     }
 
     public void editItemAll(int itemId){ // 3-1-2-2 상품정보수정(정보전체수정)
@@ -210,8 +214,7 @@ public class AdminMain {
                 ItemDAO itemDAO = new ItemDAO();
                 itemDAO.setConnection(conn);
                 if(itemDAO.updateItemInfo(item)) {
-                    allItemList();
-                    listSubmenu();
+                    System.out.println("상품전체수정성공AdminMain");
                 }
                 else System.out.println("상품전체수정실패AdminMain");
             }catch (Exception e){
