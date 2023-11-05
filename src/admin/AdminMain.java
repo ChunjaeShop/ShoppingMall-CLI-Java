@@ -44,7 +44,7 @@ public class AdminMain {
                     System.out.println("유효하지 않은 메뉴입니다.");
 
             }
-        } while (!menuNo.equals("1") && !menuNo.equals("2"));
+        }while(!menuNo.equals("1")  && !menuNo.equals("2"));
         System.out.println("mainMenu종료");
     }
 
@@ -111,6 +111,8 @@ public class AdminMain {
                     editItemMenu(); // 3-1-2
                     break;
                 case "3":
+                    stat = removeItem();   // 3-1-3
+                    System.out.println("3번 확인"); // test code
                     break;
                 case "9":
 
@@ -119,7 +121,7 @@ public class AdminMain {
         System.out.println("listSubmenu종료"); // test code
     }
 
-    public void enrollItem() { // 3-1-1 상품등록
+    public void enrollItem(){ // 3-1-1 상품등록
         Item item = new Item();
         System.out.println("-----------------------[ 상품 등록 ]----------------------");
         System.out.print("상품명: ");
@@ -142,10 +144,10 @@ public class AdminMain {
             try {
                 ItemDAO itemDAO = new ItemDAO();
                 itemDAO.setConnection(conn);
-                if (itemDAO.insertItem(item))
+                if(itemDAO.insertItem(item))
                     listSubmenu();
                 else System.out.println("상품등록실패");
-            } catch (Exception e) {
+            }catch (Exception e){
 
             }
         }
@@ -161,16 +163,16 @@ public class AdminMain {
         System.out.print("메뉴 선택: ");
         String subMenuNo = scanner.nextLine();
         if (subMenuNo.equals("1")) {    // 3-1-2-1 재고수정
-            System.out.print("[" + itemId + "] 수정할 재고 : ");
+            System.out.print("["+itemId+"] 수정할 재고 : ");
             int newRemain = scanner.nextInt();
             try {
                 ItemDAO itemDAO = new ItemDAO();
                 itemDAO.setConnection(conn);
-                if (itemDAO.updateItemRemain(itemId, newRemain))
+                if(itemDAO.updateItemRemain(itemId, newRemain))
                     listSubmenu();
                 else
                     System.out.println("상품등록실패");
-            } catch (Exception e) {
+            }catch (Exception e){
 
             }
         } else if (subMenuNo.equals("2")) {    // 3-1-2-2 정보전체수정
@@ -184,7 +186,7 @@ public class AdminMain {
 
     }
 
-    public void editItemAll(int itemId) { // 3-1-2-2 상품정보수정(정보전체수정)
+    public void editItemAll(int itemId){ // 3-1-2-2 상품정보수정(정보전체수정)
         Item item = new Item();
         item.setItemId(itemId);
         System.out.println("-----------------------[ 상품 정보 수정 ]----------------------");
@@ -195,8 +197,7 @@ public class AdminMain {
         System.out.print("가격: ");
         item.setPrice(scanner.nextInt());
         System.out.print("재고: ");
-        item.setRemain(scanner.nextInt());
-        scanner.nextLine();
+        item.setRemain(scanner.nextInt()); scanner.nextLine();
         System.out.print("상품설명: ");
         item.setContent(scanner.nextLine());
 
@@ -208,13 +209,45 @@ public class AdminMain {
             try {
                 ItemDAO itemDAO = new ItemDAO();
                 itemDAO.setConnection(conn);
-                if (itemDAO.updateItemInfo(item)) {
+                if(itemDAO.updateItemInfo(item)) {
                     allItemList();
                     listSubmenu();
-                } else System.out.println("상품전체수정실패AdminMain");
-            } catch (Exception e) {
+                }
+                else System.out.println("상품전체수정실패AdminMain");
+            }catch (Exception e){
 
             }
         }
     }
+
+    public boolean removeItem(){ // 3-1-2-3 상품삭제
+        System.out.println("-------------------------------------------------------------------------");
+        System.out.print("삭제할 상품 ID : ");
+        int itemId = scanner.nextInt();
+        scanner.nextLine();
+        ItemDAO itemDAO = new ItemDAO();
+        itemDAO.setConnection(conn);
+        String itemName = itemDAO.getItemNameUsingItemId(itemId);
+        System.out.println("["+itemName+"]을 삭제하시겠습니까?  1.확인   9.뒤로가기");
+        System.out.print("메뉴 선택: ");
+        String deleteMenuNo = scanner.nextLine();
+        if (deleteMenuNo.equals("1")) {
+            try {
+                if(itemDAO.deleteItemInfo(itemId)) {
+                    allItemList();
+                    return true;
+                }
+                else
+                    System.out.println("상품삭제실패AdminMain");
+            }catch (Exception e){
+
+            }
+        } else if (deleteMenuNo.equals("9")) {
+            System.out.println("뒤로가기 입력확인");
+            return true;
+        }
+        return false;
+    }
+
+
 }
