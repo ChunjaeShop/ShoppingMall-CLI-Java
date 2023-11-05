@@ -114,4 +114,20 @@ public class ItemDAO {
         }
         return itemName;
     }
+
+    public boolean deleteItemInfo(int itemId){
+        try {
+            String sql =
+                    "DELETE FROM item WHERE item_id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, itemId);
+            pstmt.executeQuery();
+            pstmt.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }
