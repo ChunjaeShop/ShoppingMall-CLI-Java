@@ -95,4 +95,23 @@ public class ItemDAO {
         System.out.println("상품전체수정실패");
         return false;
     }
+
+    public String getItemNameUsingItemId(int itemId){
+        String itemName = null;
+        try {
+            String sql =
+                    "SELECT item_name FROM  item WHERE item_id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, itemId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                itemName = rs.getString("item_name");
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+        e.printStackTrace();
+        }
+        return itemName;
+    }
 }
