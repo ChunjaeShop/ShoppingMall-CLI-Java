@@ -33,7 +33,7 @@ public class AdminMain {
                     stat = listSubmenu(); // 3-1
                     break;
                 case "2":
-                    //stat = orderListMenu(); // 3-2
+                    //stat = orderListMenu(); // 3-2 작업
                     break;
                 case "4":
                     //itemRank();
