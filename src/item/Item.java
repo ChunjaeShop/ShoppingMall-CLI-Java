@@ -1,4 +1,4 @@
-package admin;
+package item;
 
 public class Item { // vo
     private String categoryId;

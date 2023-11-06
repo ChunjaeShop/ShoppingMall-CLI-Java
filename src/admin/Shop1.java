@@ -1,16 +1,18 @@
 package admin;
 
+import item.ItemDTO;
+
 import java.sql.*;
 import java.util.Scanner;
 
-public class ShoppingmallDAO01 {
+public class Shop1 {
     private Scanner scanner = new Scanner(System.in);
     private Connection conn;
     private String loggedInUserID;
-    private AdminMain adminMain = new AdminMain(); // 지원
+    ConsoleTextControl consoleTextControl = new ConsoleTextControl();
 
 
-    public ShoppingmallDAO01() {
+    public Shop1() {
         try {
             // JDBC Driver 등록
             Class.forName("org.mariadb.jdbc.Driver");
@@ -24,11 +26,16 @@ public class ShoppingmallDAO01 {
         }
     }
 
-    public void list() {
-        // 타이틀 및 컬럼명 출력
-        System.out.println();
-        System.out.println("［쇼핑몰 주문  프로그램］");
+    public void printDisabledMainMenu(){
+        System.out.println("--------------------------------------------");
+        consoleTextControl.logMassge("\t\t\t[천재쇼핑몰 Main Menu]", "purple");
+        System.out.println("- 로그인 후 메뉴를 이용할 수 있습니다.");
+        System.out.println("0.상품전체보기\t\t0.상품상세조회\t\t0.주문/배송조회");
+        System.out.println("0.Top10상품보기\t\t0.장바구니\t\t\t0.내정보확인");
+        System.out.println("--------------------------------------------");
     }
+
+
 
     public int login(String userID, String userPassword) {
         String sql = "SELECT user_pw FROM member WHERE user_id = ?";
@@ -61,6 +68,8 @@ public class ShoppingmallDAO01 {
         do {
             System.out.println();
             System.out.println("-----------------------------------------------------------------------------");
+            System.out.println();
+
             System.out.println("1. 회원 로그인 | 2. 회원가입 | 3. 관리자 로그인");
             System.out.print("메뉴 선택: ");
             menuNo = scanner.nextLine();
@@ -120,7 +129,7 @@ public class ShoppingmallDAO01 {
                     create();
                     break;
 
-                case "3": // 관리자 로그인
+                case "3":
                     String adminID;
                     String adminPassword;
                     do {
@@ -140,9 +149,8 @@ public class ShoppingmallDAO01 {
                     } while (adminID.isEmpty());
 
 
-                    if (adminID.equals("aa") && adminPassword.equals("1234")) {
-                        adminMain.mainMenu(conn);
-
+                    if (adminID.equals("host") && adminPassword.equals("1234")) {
+                        System.out.println("관리자로 로그인하셨습니다!");
                     } else {
                         System.out.println("관리자 로그인 실패");
                         startMenu();
@@ -233,7 +241,7 @@ public class ShoppingmallDAO01 {
             System.out.println("-----------------------------------------------------------------------------------");
             System.out.println("[1.상품전체보기] [2.상품상세조회] [3.주문/배송조회] [4.Top10상품보기]   [5.장바구니]   [9.내정보확인]");
             System.out.println("-----------------------------------------------------------------------------------");
-            System.out.println("메뉴 선택 :");
+            System.out.print("메뉴 선택 :");
             menuNo = scanner.nextLine();
 
             switch (menuNo) {
@@ -245,9 +253,19 @@ public class ShoppingmallDAO01 {
                 case "2":
                     DetailItemSearch();
                     break;
+
+                case "3":
+                    Delivery();
+                    break;
                 case "4":
                     itemRank();
                     break;
+
+                case "5" :
+                    Basket();
+
+                    break;
+
                 case "9":
                     MyInfo();
                     break;
@@ -255,9 +273,13 @@ public class ShoppingmallDAO01 {
                     System.out.println("유효하지 않은 메뉴입니다.");
 
             }
-        }while(!menuNo.equals("1")  &&!menuNo.equals("2") &&!menuNo.equals("4")&&!menuNo.equals("9"));
+        }while(!menuNo.equals("1")  &&!menuNo.equals("2") &&!menuNo.equals("3") &&!menuNo.equals("4") &&!menuNo.equals("4")&&!menuNo.equals("9"));
     }
 
+
+    public void Basket(){
+        System.out.println("장바구니");
+    }
     public void AllItemList() {
 
         // 타이틀 및 컬럼명 출력
@@ -308,7 +330,7 @@ public class ShoppingmallDAO01 {
 
         while (itemId == -1) { // 아이템 ID가 유효하지 않은 경우 반복
             System.out.println();
-            System.out.println("조회할 상품 ID : ");
+            System.out.print("조회할 상품 ID : ");
             try {
                 itemId = Integer.parseInt(scanner.nextLine());
             } catch (Exception e) {
@@ -363,7 +385,7 @@ public class ShoppingmallDAO01 {
         do {
             System.out.println("--------------------------------------------------------------------------------------------------");
             System.out.println("메뉴 : [1.장바구니담기] [9.뒤로가기]");
-            System.out.println("메뉴 선택 :");
+            System.out.print("메뉴 선택 :");
             menuNo = scanner.nextLine();
 
             switch (menuNo) {
@@ -373,8 +395,10 @@ public class ShoppingmallDAO01 {
                     LoginPassMenu();
                     break;
 
+
+
                 case "9":
-                    AllItemList();
+                    LoginPassMenu();
                     break;
                 default:
                     System.out.println("유효하지 않은 메뉴입니다.");
@@ -382,6 +406,269 @@ public class ShoppingmallDAO01 {
             }
         }while(!menuNo.equals("1")  &&!menuNo.equals("9"));
     }
+
+    public void Delivery() {
+        try {
+            String sql = "SELECT item_order.order_id, item.item_name, item_order.size, item.price, " +
+                    "item_order.order_date, item_order.status " +
+                    "FROM item_order " +
+                    "JOIN item ON item_order.item_id = item.item_id " +
+                    "WHERE item_order.user_id = ?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, loggedInUserID);
+            ResultSet rs = pstmt.executeQuery();
+
+            System.out.println();
+            System.out.println("［주문/배송 조회］");
+            System.out.println("------------------------------------------------------------------");
+            System.out.printf("%-10s%-20s%-15s%-10s%-20s%-10s\n", "Order ID", "Item Name", "Size", "Price", "Order Date", "Status");
+            System.out.println("------------------------------------------------------------------");
+
+            while (rs.next()) {
+                int orderID = rs.getInt("order_id");
+                String itemName = rs.getString("item_name");
+                String size = rs.getString("size");
+                int price = rs.getInt("price");
+                Timestamp orderDate = rs.getTimestamp("order_date");
+                String status = rs.getString("status");
+
+                System.out.printf("%-20s%-20s%-25s%-20s%-20s%-20s\n", orderID, itemName, size, price, orderDate, status);
+            }
+            String menuNo;
+            do {
+                System.out.println();
+                System.out.println("메뉴 : [1.주문 수정] [2.주문 취소] [9.뒤로 가기]");
+                System.out.print("메뉴 선택 :");
+                menuNo = scanner.nextLine();
+
+
+                switch (menuNo) {
+                    case "1":
+                        System.out.print("수정할 주문의 Order ID를 입력하세요: ");
+                        int selectedOrderID = Integer.parseInt(scanner.nextLine());
+                        modifyOrder(selectedOrderID);
+                        break;
+
+                    case "2":
+                        // 주문 취소 화면 호출
+                        System.out.println("주문 취소 기능 호출");
+                        System.out.print("주문 ID를 입력하세요: ");
+                        int orderID = Integer.parseInt(scanner.nextLine());
+                        CancelOrderScreen(orderID);
+                        Delivery();
+                        break;
+
+                    case "9":
+                        LoginPassMenu();
+                        break;
+
+                    default:
+                        System.out.println("유효하지 않은 메뉴입니다.");
+                }
+
+            } while (!menuNo.equals("1") && !menuNo.equals("2") && !menuNo.equals("9"));
+
+
+
+            rs.close();
+            pstmt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void modifyOrder(int orderID) {
+
+
+        try {
+            // 주문 내역 조회
+            String sql = "SELECT item_order.order_id, item.item_name, item_order.status, item_order.address " +
+                    "FROM item_order " +
+                    "JOIN item ON item_order.item_id = item.item_id " +
+                    "WHERE item_order.user_id = ? AND item_order.order_id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, loggedInUserID);
+            pstmt.setInt(2, orderID);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String itemName = rs.getString("item_name");
+                String address = rs.getString("address");
+
+                System.out.println();
+                System.out.println("［주문 수정］");
+                System.out.println("------------------------------------------------------------------");
+                System.out.println("Order ID: " + orderID);
+                System.out.println("Item Name: " + itemName);
+                System.out.println("Address: " + address);
+                System.out.println("------------------------------------------------------------------");
+
+                String menuNo;
+
+                do {
+                    System.out.println();
+                    System.out.println("메뉴 : [2.배송지 수정] [3.통합 메뉴] [9.뒤로 가기]");
+                    System.out.print("메뉴 선택 :");
+                    menuNo = scanner.nextLine();
+
+                    switch (menuNo) {
+
+                        case "2":
+                            System.out.print("새로운 배송지 입력:");
+                            String newAddress = scanner.nextLine();
+                            updateAddress(orderID, newAddress);
+                            modifyOrder(orderID);
+                            break;
+
+
+                        case "3":
+                            System.out.println();
+                            System.out.println("통합 메뉴");
+                            LoginPassMenu();
+                            break;
+
+                        case "9":
+                            Delivery();
+                            break;
+
+                        default:
+                            System.out.println("유효하지 않은 메뉴입니다.");
+                    }
+                } while (!menuNo.equals("2")&&!menuNo.equals("3")&&!menuNo.equals("9"));
+
+            } else {
+                System.out.println("해당 주문이 없습니다.");
+                Delivery();
+            }
+
+            rs.close();
+            pstmt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getItemNameByOrderID(int orderID, String loggedInUserID) {
+        String itemName = null;
+
+        try {
+            String sql = "SELECT item.item_name " +
+                    "FROM item_order " +
+                    "JOIN item ON item_order.item_id = item.item_id " +
+                    "WHERE item_order.order_id = ? AND item_order.user_id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, orderID);
+            pstmt.setString(2, loggedInUserID);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                itemName = rs.getString("item_name");
+            }
+
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return itemName;
+    }
+    private void CancelOrderScreen(int orderID) {
+        System.out.println("[주문 취소]");
+        System.out.println("------------------------------------------");
+
+        try {
+            String itemName = getItemNameByOrderID(orderID,loggedInUserID); // 주문 ID를 사용하여 상품명 가져오기
+
+            if (itemName != null) {
+                System.out.println("상품명: " + itemName);
+                System.out.println("주문 ID: " + orderID);
+                System.out.println("[" + orderID + "] 주문을 취소하시겠습니까? 1.확인 9.뒤로 가기");
+                System.out.print("메뉴 선택: ");
+
+                String menuNo = scanner.nextLine();
+                switch (menuNo) {
+                    case "1":
+                        try {
+                            String sql = "DELETE FROM item_order WHERE order_id = ? AND user_id = ?";
+                            PreparedStatement pstmt = conn.prepareStatement(sql);
+                            pstmt.setInt(1, orderID);
+                            pstmt.setString(2, loggedInUserID);
+
+                            int affectedRows = pstmt.executeUpdate();
+                            pstmt.close();
+
+                            if (affectedRows > 0) {
+                                System.out.println("주문이 취소되었습니다.");
+                            } else {
+                                System.out.println("주문 취소에 실패했습니다. 주문 ID를 확인해주세요.");
+                            }
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case "9":
+                        Delivery(); // 뒤로 가기
+                        break;
+                    default:
+                        System.out.println("유효하지 않은 메뉴입니다.");
+                        break;
+                }
+            } else {
+                System.out.println("주문 정보를 찾을 수 없습니다. 주문 ID를 확인해주세요.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateSize(int orderID, String newSize) {
+        try {
+            String sql = "UPDATE item_order SET size = ? WHERE order_id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, newSize);
+            pstmt.setInt(2, orderID);
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("사이즈가 업데이트되었습니다.");
+            } else {
+                System.out.println("사이즈 업데이트 실패");
+            }
+
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void updateAddress(int orderID, String newAddress) {
+        try {
+            String sql = "UPDATE item_order SET address = ? WHERE order_id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, newAddress);
+            pstmt.setInt(2, orderID);
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("배송지가 업데이트되었습니다.");
+            } else {
+                System.out.println("배송지 업데이트 실패");
+            }
+
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 
 
     // TOP10 확인
@@ -428,6 +715,7 @@ public class ShoppingmallDAO01 {
                 case "1":
                     //장바구니 넣는 메서드
                     System.out.println("상품상세조회로 이동합니다.");
+                    AllItemList();
                     DetailItemSearch();
                     break;
 
@@ -585,8 +873,8 @@ public class ShoppingmallDAO01 {
 
 
     public static void main(String[] args) {
-        ShoppingmallDAO01 shoppingmallDAO01 = new ShoppingmallDAO01();
-        shoppingmallDAO01.list();
-        shoppingmallDAO01.startMenu();
+        Shop1 shop1 = new Shop1();
+        shop1.printDisabledMainMenu();
+        shop1.startMenu();
     }
 }

@@ -1,5 +1,9 @@
 package admin;
 
+import item.Item;
+import item.ItemDAO;
+import item.ItemDTO;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +13,7 @@ import java.util.Scanner;
 public class AdminMain {
     Scanner scanner = new Scanner(System.in);
     private Connection conn;
+
 
     public AdminMain() {
 
@@ -30,10 +35,10 @@ public class AdminMain {
 
             switch (menuNo) {
                 case "1":
-                    stat = listSubmenu(); // 3-1
+                    stat = listSubmenu(); // 3-1 상품전체보기
                     break;
                 case "2":
-                    //stat = orderListMenu(); // 3-2 작업
+                    stat = orderListMenu(); // 3-2 주문내역조회(작업중)
                     break;
                 case "4":
                     //itemRank();
@@ -157,7 +162,7 @@ public class AdminMain {
         return false;
     }
 
-    public boolean editItemMenu() { // 3-1-2 상품정보수정 메뉴
+    public boolean editItemMenu() { // 3-1-2 상품정보수정 메뉴 // 작업중
         System.out.println("-------------------------------------------------------------------------");
         System.out.print("수정할 상품 ID : ");
         int itemId = scanner.nextInt();
@@ -252,5 +257,51 @@ public class AdminMain {
         return false;
     }
 
+    public boolean orderListMenu() { // 3-2-1
+        // 타이틀 및 컬럼명 출력
+        System.out.println();
+        System.out.println("［상품 전체 보기］");
+        System.out.println("-------------------------------------------------------------------------");
+        System.out.printf("%-20s%-20s%-20s%-20s%-20s%-20s%-20s%-20s\n", "category_id", "item_id", "item_name", "size", "purchase_cnt", "remain", "price", "item_contents");
+        System.out.println("-------------------------------------------------------------------------");
+
+        // boards 테이블에서 게시물 정보를 가져와서 출력하기
+        try {
+            String sql =
+                    "SELECT category_id, item_id, item_name, size, purchase_cnt, remain, price, item_contents " +
+                            "FROM  item ";
+            // SELECT bno, btitle, bcontent, bwriter, bdate FROM boards ORDER BY bno DESC
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                ItemDTO itemdao = new ItemDTO();
+                itemdao.setCategoryId(rs.getString("category_id"));
+                itemdao.setItemId(rs.getInt("item_id"));
+                itemdao.setItemName(rs.getString("item_name"));
+                itemdao.setSize(rs.getString("size"));
+                itemdao.setPurchaseCnt(rs.getInt("purchase_cnt"));
+                itemdao.setRemain(rs.getInt("remain"));
+                itemdao.setPrice(rs.getInt("price"));
+                itemdao.setContent(rs.getString("item_contents"));
+                System.out.printf("%-20s%-20s%-20s%-20s%-20s%-20s%-20s%-20s\n",
+                        itemdao.getCategoryId(),
+                        itemdao.getItemId(),
+                        itemdao.getItemName(),
+                        itemdao.getSize(),
+                        itemdao.getPurchaseCnt(),
+                        itemdao.getRemain(),
+                        itemdao.getPrice(),
+                        itemdao.getContent());
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+        return false;
+    }
 
 }

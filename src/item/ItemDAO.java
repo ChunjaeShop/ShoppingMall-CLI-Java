@@ -1,4 +1,4 @@
-package admin;
+package item;
 
 import java.sql.*;
 
@@ -6,20 +6,85 @@ public class ItemDAO {
     private static ItemDAO itemDAO;
     private Connection conn;
 
-    public ItemDAO() {
-
+    public ItemDAO(Connection conn){
+        this.conn = conn;
     }
-
-    public static ItemDAO getInstance() {
-        if (itemDAO == null) {
-            itemDAO = new ItemDAO();
-        }
-        return itemDAO;
+    public ItemDAO(){
     }
-
     public void setConnection(Connection con) {
         this.conn = con;
     }
+
+    public boolean printAllItemList(){ // item 테이블 전체 조회 SQL 및 화면 출력
+        try {
+            String sql =
+                    "SELECT category_id, item_id, item_name, price " +
+                            "FROM  item";
+            // SELECT bno, btitle, bcontent, bwriter, bdate FROM boards ORDER BY bno DESC
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                ItemDTO itemdao = new ItemDTO();
+                itemdao.setCategoryId(rs.getString("category_id"));
+                itemdao.setItemId(rs.getInt("item_id"));
+                itemdao.setItemName(rs.getString("item_name"));
+                itemdao.setPrice(rs.getInt("price"));
+                System.out.printf("%-20s%-20s%-20s%-20s%n",
+                        itemdao.getCategoryId(),
+                        itemdao.getItemId(),
+                        itemdao.getItemName(),
+                        itemdao.getPrice()); // 출력하는 메서드 분리 예정
+
+            }
+            rs.close();
+            pstmt.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return false;
+    }
+    public boolean printItemDetail(int itemId){
+        try {
+            String sql = "SELECT item_name, price, remain, purchase_cnt, item_contents " +
+                    "FROM item " +
+                    "WHERE item_id=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, itemId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                ItemDTO itemdao = new ItemDTO();
+                itemdao.setItemName(rs.getString("item_name"));
+                itemdao.setPrice(rs.getInt("price"));
+                itemdao.setRemain(rs.getInt("remain"));
+                itemdao.setPurchaseCnt(rs.getInt("purchase_cnt"));
+                itemdao.setContent(rs.getString("item_contents"));
+                System.out.println("------------------------------------------------------------------------------------------------------------------");
+                System.out.printf("%-20s%-20s%-20s%-20s%-18s\n", "상품명", "가격", "재고량", "누적판매량", "상품설명");
+                System.out.println("------------------------------------------------------------------------------------------------------------------");
+                System.out.printf("%-20s%-20s%-20s%-20s%-20s\n",
+                        itemdao.getItemName(),
+                        itemdao.getPrice(),
+                        itemdao.getRemain(),
+                        itemdao.getPurchaseCnt(),
+                        itemdao.getContent());
+            } else {
+                System.out.println("해당 상품이 없습니다.");
+                System.out.println("다시 상품을 확인해주세요");
+                System.out.println();
+                return false;
+            }
+
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     public boolean insertItem(Item item) {
         PreparedStatement pstmt = null;
         ResultSet rs = null;

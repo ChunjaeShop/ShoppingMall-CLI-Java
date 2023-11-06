@@ -1,4 +1,4 @@
-package admin;
+package item;
 
 public class ItemDTO {
     private String categoryId;
