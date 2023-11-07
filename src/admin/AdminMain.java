@@ -60,7 +60,7 @@ public class AdminMain {
         System.out.println();
         System.out.println("［상품 전체 보기］");
         System.out.println("-------------------------------------------------------------------------");
-        System.out.printf("%-20s%-20s%-20s%-20s%-20s%-20s%-20s%-20s\n", "category_id", "item_id", "item_name", "size", "purchase_cnt", "remain", "price", "item_contents");
+        System.out.printf("%-10s| %-10s\t| %-10s\t| %-10s\t| %-10s\t| %-10s\t| %-10s\t|%-20s\n", "category_id", "item_id", "item_name", "size", "purchase_cnt", "remain", "price", "item_contents");
         System.out.println("-------------------------------------------------------------------------");
 
         // boards 테이블에서 게시물 정보를 가져와서 출력하기
@@ -81,7 +81,7 @@ public class AdminMain {
                 itemdao.setRemain(rs.getInt("remain"));
                 itemdao.setPrice(rs.getInt("price"));
                 itemdao.setContent(rs.getString("item_contents"));
-                System.out.printf("%-20s%-20s%-20s%-20s%-20s%-20s%-20s%-20s\n",
+                System.out.printf("%-10s| %-10s\t| %-10s\t| %-10s\t| %-10s\t| %-10s\t| %-10s\t|%-20s\n",
                         itemdao.getCategoryId(),
                         itemdao.getItemId(),
                         itemdao.getItemName(),
@@ -145,7 +145,7 @@ public class AdminMain {
 
         System.out.println("-------------------------------------------------------");
         System.out.println("1.상품등록완료 | 9.뒤로가기");
-        System.out.print("메뉴 선택: ");
+        System.out.print("메뉴 선택 >");
         String subMenuNo = scanner.nextLine();
         if (subMenuNo.equals("1")) {
             try {
@@ -167,7 +167,7 @@ public class AdminMain {
         int itemId = scanner.nextInt();
         scanner.nextLine();
         System.out.println("1.재고수정 | 2.정보전체수정 | 9.뒤로가기");
-        System.out.print("메뉴 선택: ");
+        System.out.print("메뉴 선택 >");
         String subMenuNo = scanner.nextLine();
         if (subMenuNo.equals("1")) {    // 3-1-2-1 재고수정
             System.out.print("["+itemId+"] 수정할 재고 : ");
@@ -211,7 +211,7 @@ public class AdminMain {
 
         System.out.println("-------------------------------------------------------");
         System.out.println("1.수정 | 9.뒤로가기");
-        System.out.print("메뉴 선택: ");
+        System.out.print("메뉴 선택 >");
         String subMenuNo = scanner.nextLine();
         if (subMenuNo.equals("1")) {
             try {
@@ -235,8 +235,8 @@ public class AdminMain {
         ItemDAO itemDAO = new ItemDAO();
         itemDAO.setConnection(conn);
         String itemName = itemDAO.getItemNameUsingItemId(itemId);
-        System.out.println("["+itemName+"]을 삭제하시겠습니까?  1.확인   9.뒤로가기");
-        System.out.print("메뉴 선택: ");
+        System.out.println("["+itemName+"]을 삭제하시겠습니까?  1.확인 | 9.뒤로가기");
+        System.out.print("메뉴 선택 >");
         String deleteMenuNo = scanner.nextLine();
         if (deleteMenuNo.equals("1")) {
             try {
@@ -261,7 +261,7 @@ public class AdminMain {
         System.out.println();
         System.out.println("［상품 전체 보기］");
         System.out.println("-------------------------------------------------------------------------");
-        System.out.printf("%-20s%-20s%-20s%-20s%-20s%-20s%-20s%-20s\n", "category_id", "item_id", "item_name", "size", "purchase_cnt", "remain", "price", "item_contents");
+        System.out.printf("%-10s| %-10s\t| %-10s\t| %-10s\t| %-10s\t| %-10s\t| %-10s\t|%-20s\n", "category_id", "item_id", "item_name", "size", "purchase_cnt", "remain", "price", "item_contents");
         System.out.println("-------------------------------------------------------------------------");
 
         // boards 테이블에서 게시물 정보를 가져와서 출력하기
@@ -282,7 +282,7 @@ public class AdminMain {
                 itemdao.setRemain(rs.getInt("remain"));
                 itemdao.setPrice(rs.getInt("price"));
                 itemdao.setContent(rs.getString("item_contents"));
-                System.out.printf("%-20s%-20s%-20s%-20s%-20s%-20s%-20s%-20s\n",
+                System.out.printf("%-10s| %-10s\t| %-10s\t| %-10s\t| %-10s\t| %-10s\t| %-10s\t|%-20s\n",
                         itemdao.getCategoryId(),
                         itemdao.getItemId(),
                         itemdao.getItemName(),
