@@ -31,7 +31,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
             //결제테이블의 number, 상품명, 가격, 주문날짜, member테이블의 주소, 결제테이블의 전화번호 출력
             String sql =
                     "SELECT p.purchase_no, p.item_name, p.price, p.order_date " +
-                            "FROM purchase_list p, member m WHERE p.user_id=m.user_id AND p.user_id=?;";
+                    "FROM purchase_list p, member m WHERE p.user_id=m.user_id AND p.user_id=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, loggedInUserID);
@@ -95,9 +95,9 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
         try {
             // 주문 내역 조회
             String sql = "SELECT item_order.order_id, item.item_name, item_order.status, item_order.address " +
-                    "FROM item_order " +
-                    "JOIN item ON item_order.item_id = item.item_id " +
-                    "WHERE item_order.user_id = ? AND item_order.order_id = ?";
+                         "FROM item_order " +
+                         "JOIN item ON item_order.item_id = item.item_id " +
+                         "WHERE item_order.user_id = ? AND item_order.order_id = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, loggedInUserID);
             pstmt.setInt(2, orderID);
@@ -227,9 +227,9 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
 
         try {
         String sql = "SELECT item.item_name " +
-                "FROM item_order " +
-                "JOIN item ON item_order.item_id = item.item_id " +
-                "WHERE item_order.order_id = ? AND item_order.user_id = ?";
+                     "FROM item_order " +
+                     "JOIN item ON item_order.item_id = item.item_id " +
+                     "WHERE item_order.order_id = ? AND item_order.user_id = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setInt(1, orderID);
         pstmt.setString(2, loggedInUserID);
@@ -251,8 +251,8 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
             // cartlist, member테이블에서 아이디가 동일한걸 찾고(조건) 장바구니에 담겨있는 물품 가격 총금액을 출력;
             String sql =
                     "SELECT SUM(price) AS `총금액` "+
-                            "FROM cartlist a, member m " +
-                            "WHERE a.user_id=m.user_id AND a.user_id = ?" ;
+                    "FROM cartlist a, member m " +
+                    "WHERE a.user_id=m.user_id AND a.user_id = ?" ;
             // `총금액` 변경 시 cartlistDTO.setPrice(rs.getInt("총금액") columnLabel 도 같이 변경(필수)
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -284,7 +284,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
         System.out.println();
         System.out.println("주문 전 주소와 전화번호를 확인해주세요");
         System.out.println("-------------------------------------------------------");
-        System.out.printf("%-20s%-20s\n", "주소", "전화번호");
+        System.out.printf("%-10s\t|%-10s\n", "주소", "전화번호");
         System.out.println("-------------------------------------------------------");
 
         // cartlist 테이블에서 가져와서 출력해줌
@@ -292,7 +292,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
             // cartlist, member테이블에서 아이디가 동일한걸 찾고 장바구니에 담겨있는 물품 가격 총금액을 출력;
             String sql =
                     "SELECT DISTINCT m.address, m.phone FROM cartlist a, member m "+
-                            "WHERE a.user_id=m.user_id AND a.user_id=?";
+                    "WHERE a.user_id=m.user_id AND a.user_id=?";
             // `총금액` 변경 시 cartlistDTO.setPrice(rs.getInt("총금액") columnLabel 도 같이 변경(필수)
             //executeQuery()호출하여 ResultSet 검색
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -307,7 +307,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
                 //데이터베이스 열에서 값을 가져옴 getX()메서드
                 memberDTO.setAddress(rs.getString("address"));
                 memberDTO.setPhone(rs.getString("phone"));
-                System.out.printf("%-20s%-20s\n",
+                System.out.printf("%-10s\t|%-20s\n",
                         memberDTO.getAddress(),
                         memberDTO.getPhone());
             }
@@ -329,8 +329,8 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
                 try {
                     String sql =
                             "INSERT INTO purchase_list(user_id, item_name, price, order_date, phone) " +
-                                    "SELECT c.user_id, c.item_name, c.price, now(), c.phone " +
-                                    "FROM cartlist c, member m WHERE c.user_id = m.user_id AND c.user_id = ?";
+                            "SELECT c.user_id, c.item_name, c.price, now(), c.phone " +
+                            "FROM cartlist c, member m WHERE c.user_id = m.user_id AND c.user_id = ?";
                     PreparedStatement pstmt = conn.prepareStatement(sql);
                     pstmt.setString(1, loggedInUserID);
                     pstmt.executeUpdate();
@@ -365,7 +365,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
         System.out.println(" ############## ");
 
         System.out.println("-------------------------------------------------------------------------");
-        System.out.printf("%-20s%-20s%-20s%-20s%-20s%-20s\n", "no", "상품명", "가격", "주문날짜", "주소", "전화번호");
+        System.out.printf("%-10s|%-10s\t|%-10s\t|%-20s\t|%-10s\t|%-20s\n", "no", "상품명", "가격", "주문날짜", "주소", "전화번호");
         System.out.println("-------------------------------------------------------------------------");
 
         // 주문 리스트 출력
@@ -373,7 +373,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
             //결제테이블의 number, 상품명, 가격, 주문날짜, member테이블의 주소, 결제테이블의 전화번호 출력
             String sql =
                     "SELECT p.purchase_no, p.item_name, p.price, p.order_date, m.address, p.phone\n" +
-                            "FROM purchase_list p, member m WHERE p.user_id=m.user_id AND p.user_id=?;";
+                    "FROM purchase_list p, member m WHERE p.user_id=m.user_id AND p.user_id=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, loggedInUserID);
@@ -390,7 +390,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
                 purchaseListDTO.setPurchaseDate(rs.getString("order_date"));
                 memberDTO.setAddress(rs.getString("address"));
                 purchaseListDTO.setPhone(rs.getString("phone"));
-                System.out.printf("%-20s%-20s%-20s%-20s%-20s%-20s\n",
+                System.out.printf("%-10s|%-10s\t|%-10s\t|%-20s\t|%-10s\t|%-20s\n",
                         purchaseListDTO.getPurchaseNo(),
                         purchaseListDTO.getItemName(),
                         purchaseListDTO.getPrice(),
@@ -423,8 +423,8 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
 
         try {
             String sql =
-                    " UPDATE member\n" +
-                            "SET address= ? , phone = ? ";
+                     "UPDATE member\n" +
+                     "SET address= ? , phone = ? ";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, memberDto.getAddress());
             pstmt.setString(2, memberDto.getPhone());

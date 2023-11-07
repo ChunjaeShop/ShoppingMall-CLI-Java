@@ -132,7 +132,7 @@ public class UserService {
                         return true;
 
                 }
-            }while(!menuNo.equals("1")  &&!menuNo.equals("9"));
+            }while(!menuNo.equals("1")  && !menuNo.equals("9"));
         }
         return false;
     }
