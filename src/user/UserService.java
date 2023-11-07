@@ -86,8 +86,8 @@ public class UserService {
         memberDTO.setBirth(scanner.nextLine());
 
         System.out.println("-------------------------------------------------------");
-        System.out.println("보조 메뉴 : 1.회원가입 | 2.취소");
-        System.out.print("메뉴 선택 : ");
+        System.out.println("1.회원가입 | 2.취소");
+        System.out.print("메뉴 선택 >");
         String menuNo = scanner.nextLine();
         if (menuNo.equals("1")) { // 정보입력 후 1.회원가입 메뉴 선택
             boolean resultStat = memberDAO.joinConfirm(memberDTO); // joinConfirm()으로 Insert SQL 실행
@@ -113,8 +113,8 @@ public class UserService {
             do{
                 System.out.println();
                 System.out.println("-------------------------------------------------------");
-                System.out.println("메뉴 : 1.수정 | 9.뒤로가기");
-                System.out.print("메뉴 선택 :");
+                System.out.println("1.수정 | 9.뒤로가기");
+                System.out.print("메뉴 선택 >");
                 menuNo = scanner.nextLine();
 
                 switch (menuNo) {
