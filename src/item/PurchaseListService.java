@@ -34,8 +34,8 @@ public class PurchaseListService {
             int selectedOrderID;
             do {
                 System.out.println();
-                System.out.println("메뉴 : [1.주문 수정] [2.주문 취소] [9.뒤로 가기]");
-                System.out.print("메뉴 선택 :");
+                System.out.println("1.주문 수정 | 2.주문 취소 | 9.뒤로 가기");
+                System.out.print("메뉴 선택 >");
                 menuNo = scanner.nextLine();
 
                 switch (menuNo) {
@@ -79,8 +79,9 @@ public class PurchaseListService {
         while(true) { // 무한반복을 잘못 사용한 것은 아닐지 확인 필요 - merger
         //부메뉴 출력
         System.out.println("----------------------------------------------");
-        System.out.println("구매하시겠습니까? [1.구매(결제)] [9.뒤로가기]");
-        System.out.print("메뉴 선택 :");
+        System.out.println("구매하시겠습니까?");
+        System.out.println("1.구매(결제) | 9.뒤로가기");
+        System.out.print("메뉴 선택 >");
         String menuNo = scanner.nextLine();
 
             switch (menuNo) {

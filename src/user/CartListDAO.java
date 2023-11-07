@@ -62,8 +62,8 @@ public class CartListDAO { // purchase_list와 item_order가 같은 역할인 �
             } catch (Exception e) {
             }
         }
-        System.out.println("[item_name]을 삭제하시겠습니까?");
-        System.out.println("[1.확인] [9.뒤로가기]");
+        System.out.println("선택한 상품을 삭제하시겠습니까?");
+        System.out.println("1.확인 | 9.뒤로가기");
         System.out.print("메뉴 선택 >");
         String menuNo = scanner.nextLine();
 
@@ -86,7 +86,7 @@ public class CartListDAO { // purchase_list와 item_order가 같은 역할인 �
                 }
 
                 System.out.println("---------------------------------------------");
-                System.out.println("[상품이 삭제되었습니다]");
+                System.out.println("상품이 삭제되었습니다");
                 System.out.println("---------------------------------------------");
                 return true; // 삭제 성공하면 true반환
 
