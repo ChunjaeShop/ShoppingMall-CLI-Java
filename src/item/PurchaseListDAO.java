@@ -258,7 +258,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
             // cartlist, member테이블에서 아이디가 동일한걸 찾고 장바구니에 담겨있는 물품 가격 총금액을 출력;
             String sql =
                     "SELECT DISTINCT m.address, m.phone FROM cartlist a, member m "+
-                            "WHERE a.user_id=m.user_id AND a.user_id=? ;";
+                            "WHERE a.user_id=m.user_id AND a.user_id=?";
             // `총금액` 변경 시 cartlistDTO.setPrice(rs.getInt("총금액") columnLabel 도 같이 변경(필수)
             //executeQuery()호출하여 ResultSet 검색
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -272,7 +272,6 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
                 MemberDTO memberDTO = new MemberDTO();
                 //데이터베이스 열에서 값을 가져옴 getX()메서드
                 memberDTO.setAddress(rs.getString("address"));
-                memberDTO.setUserId(rs.getString("user_id"));
                 memberDTO.setPhone(rs.getString("phone"));
                 System.out.printf("%-20s%-20s\n",
                         memberDTO.getAddress(),
@@ -304,6 +303,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
                     pstmt.close(); // cartlist에서 삭제
 
                     String deleteSql = "DELETE FROM cartlist WHERE user_id = ?";
+                    pstmt = conn.prepareStatement(deleteSql);
                     pstmt.setString(1, loggedInUserID);
                     pstmt.executeUpdate();
                     pstmt.close();
