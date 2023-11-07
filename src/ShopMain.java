@@ -1,10 +1,11 @@
-import Util.DBUtil;
+import Util.*;
 
 import java.io.IOException;
 
 public class ShopMain { // main 메소드 실행하는 클래스
     static MenuView menuView;
     static UserView userView;
+    static AdminView adminView;
 
     public static void main(String [] args) throws IOException {
         DBUtil dbUtil = new DBUtil();
@@ -18,9 +19,9 @@ public class ShopMain { // main 메소드 실행하는 클래스
                 userView.setLoggedInUserId(menuView.getLoggedInUserId());
                 userView.userLoginPassMenu();
                 break;
-            case 2:
-                break;
-            case 3:
+            case 3: // admin logged in
+                adminView = new AdminView(dbUtil.init());
+                adminView.adminLoginPassMenu();
                 break;
             default:
         }

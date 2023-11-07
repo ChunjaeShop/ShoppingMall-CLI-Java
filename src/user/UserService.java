@@ -3,9 +3,6 @@ package user;
 import item.ItemDAO;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 // 유저 로그인, 회원가입, 유저가 볼 수 있는 메뉴의 기능들
@@ -104,6 +101,87 @@ public class UserService {
         }
     }
 
+    // 내정보 확인 메서드
+    public boolean MyInfo(String loggedInUserID) {
+        if (loggedInUserID != null) {
+            System.out.println();
+            System.out.println("［내 정보 확인］");
+            System.out.println("현재 정보");
+            System.out.println("-------------------------------------------------------------------------");
+            boolean printStat = memberDAO.printMyInfo(loggedInUserID);
+            String menuNo;
+            do{
+                System.out.println();
+                System.out.println("--------------------------------------------------------------------------------------------------");
+                System.out.println("메뉴 : [1.수정] [9.뒤로가기]");
+                System.out.print("메뉴 선택 :");
+                menuNo = scanner.nextLine();
+
+                switch (menuNo) {
+                    case "1":
+                        System.out.println("수정하기");
+                        MyInfoUpdate(); // 수정할 정보 입력 받아서 -> DAO 처리하고 옮
+                        return true;
+
+                    case "9":
+                        return true;
+
+                    default:
+                        System.out.println("유효하지 않은 메뉴입니다.");
+                        System.out.println("원래 메뉴로 돌아갑니다.");
+                        return true;
+
+                }
+            }while(!menuNo.equals("1")  &&!menuNo.equals("9"));
+        }
+        return false;
+    }
+
+    public void MyInfoUpdate() {
+        MemberDTO newMemberinfo = new MemberDTO();
+        System.out.print("변경할 비밀번호 입력 (변경하지 않으려면 엔터):");
+        String newPassword = scanner.nextLine();
+        if (!newPassword.isEmpty()) {
+            newMemberinfo.setUserPw(newPassword);
+        }
+
+        System.out.print("변경할 주소 입력 (변경하지 않으려면 엔터):");
+        String newAddress = scanner.nextLine();
+        if (!newAddress.isEmpty()) {
+            newMemberinfo.setAddress(newAddress);
+        }
+
+        System.out.print("변경할 휴대폰 번호 입력 (변경하지 않으려면 엔터):");
+        String newPhone = scanner.nextLine();
+        if (!newPhone.isEmpty()) {
+            newMemberinfo.setPhone(newPhone);
+        }
+        boolean updateStat = memberDAO.updateMemberInfo(loggedInUserID, newMemberinfo);
+        if(updateStat) {// 내정보 수정 성공하면
+            System.out.println("수정이 완료되었습니다.");
+        }
+        else {
+            System.out.println("잘못된 정보입력으로 수정을 실패했습니다.");
+        }
+//        System.out.println();
+//        String choice;
+//        do {
+//            System.out.println("메뉴 : [2. 메뉴로 돌아가기] [9.내정보 확인]");
+//            System.out.print("메뉴 선택 :");
+//            choice = scanner.nextLine();
+//
+//            switch (choice) {
+//                case "2":
+//                    LoginPassMenu();
+//                    break;
+//                case "9":
+//                    MyInfo();
+//                    break;
+//                default:
+//                    System.out.println("유효하지 않은 메뉴입니다.");
+//            }
+//        }while(!menuNo.equals("2")&&!menuNo.equals("9"));
+    }
 
 
 

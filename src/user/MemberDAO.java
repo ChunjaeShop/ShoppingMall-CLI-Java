@@ -1,10 +1,6 @@
 package user;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Scanner;
+import java.sql.*;
 
 public class MemberDAO {
     static Connection conn;
@@ -57,4 +53,67 @@ public class MemberDAO {
             return false;
         }
     }
+    public boolean printMyInfo(String loggedInUserID){
+        try {
+            String sql =
+                    "SELECT name, user_id, user_pw, address, phone " +
+                            "FROM  member " +
+                            "WHERE user_id=?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, loggedInUserID); // loggedInUserID를 사용하여 쿼리에 사용자 ID 설정
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                MemberDTO memberDTO = new MemberDTO();
+                memberDTO.setName(rs.getString("name"));
+                memberDTO.setUserId(rs.getString("user_id"));
+                memberDTO.setUserPw(rs.getString("user_pw"));
+                memberDTO.setAddress(rs.getString("address"));
+                memberDTO.setPhone(rs.getString("phone"));
+                System.out.println("이름: " + memberDTO.getName());
+                System.out.println("아이디: " + memberDTO.getUserId());
+                System.out.println("비밀번호: " + memberDTO.getUserPw());
+                System.out.println("주소: " + memberDTO.getAddress());
+                System.out.println("휴대폰 번호: " + memberDTO.getPhone());
+            }
+            rs.close();
+            pstmt.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public boolean updateMemberInfo(String loggedInUserId, MemberDTO newMemberinfo){
+        try {
+            String sql =
+                    "Update member set user_pw = COALESCE(?, user_pw), " +
+                            "address = COALESCE(?, address), phone = COALESCE(?, phone) " +
+                            "WHERE user_id=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            if (!newMemberinfo.getUserPw().isEmpty()) {
+                pstmt.setString(1, newMemberinfo.getUserPw());
+            } else {
+                pstmt.setNull(1, Types.VARCHAR);
+            }
+            if (!newMemberinfo.getAddress().isEmpty()) {
+                pstmt.setString(2, newMemberinfo.getAddress());
+            } else {
+                pstmt.setNull(2, Types.VARCHAR);
+            }
+            if (!newMemberinfo.getPhone().isEmpty()) {
+                pstmt.setString(3, newMemberinfo.getPhone());
+            } else {
+                pstmt.setNull(3, Types.VARCHAR);
+            }
+            pstmt.setString(4, loggedInUserId);
+            pstmt.executeUpdate();
+            pstmt.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

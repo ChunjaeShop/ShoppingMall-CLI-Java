@@ -43,7 +43,9 @@ public class MenuView {
         do { // 회원/관리자 로그인, 회원가입이 성공하면 stat으로 true 반환
             switch (cs.scanMenu()) {
                 case "1":  // 회원 로그인 메뉴
-                    loggedInUserId = userService.login();
+                    do {
+                        loggedInUserId = userService.login();
+                    }while (loggedInUserId==null);
                     result = 1;
                     break;
                 case "2": // 회원가입 메뉴

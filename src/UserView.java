@@ -52,10 +52,10 @@ public class UserView {
             System.out.println("-----------------------------------------------------------------------------------");
             switch (cs.scanMenu()) {
                 case "1":
-                    stat = itemService.AllItemList();
+                    stat = itemService.allItemList();
                     break;
                 case "2":
-                    stat = itemService.DetailItemSearch();
+                    stat = itemService.detailItemSearch();
                     break;
                 case "3":
                     stat = purchaseListService.UserPurchaseList(loggedInUserId);
@@ -64,10 +64,10 @@ public class UserView {
                     stat = itemService.itemRanking();
                     break;
                 case "5":
-                    //Cart();
+                    stat = itemService.cartList();
                     break;
                 case "9":
-                    //MyInfo();
+                    stat = userService.MyInfo(loggedInUserId);
                     break;
                 case "0":
                     stat = false;
