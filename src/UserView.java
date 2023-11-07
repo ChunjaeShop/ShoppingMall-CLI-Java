@@ -34,15 +34,19 @@ public class UserView {
     public void userLoginPassMenu() {
         itemService.setLoggedInUserId(loggedInUserId);
         System.out.println();
-        String menuNo;
 
         // -----아래로는 컨트롤러 옮기기
         boolean stat = true;
         int result = 0;
         do { // userLoginPassMenu의 메뉴들을 실행 완료하면 stat으로 true 반환
-            System.out.println("-----------------------------------------------------------------------------------");
-            System.out.println("[1.상품전체보기] [2.상품상세조회] [3.주문/배송조회] [4.Top10상품보기]   [5.장바구니]   [9.내정보확인]  [0.로그아웃/종료]");
-            System.out.println("-----------------------------------------------------------------------------------");
+            consoleTextControl.logMassge("\t\t\t[천재쇼핑몰 Main Menu]", "green");
+            consoleTextControl.logMassge("","exit");
+            System.out.println("-------------------------------------------------------");
+            System.out.println("1.상품전체보기\t\t2.상품상세조회\t\t3.주문/배송조회");
+            System.out.println("4.Top10상품보기\t\t5.장바구니\t\t\t9.내정보확인");
+            System.out.println("0.로그아웃/종료");
+            System.out.println("-------------------------------------------------------");
+
             switch (cs.scanMenu()) {
                 case "1":
                     stat = itemService.allItemList();
