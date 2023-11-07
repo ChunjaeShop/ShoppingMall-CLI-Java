@@ -13,7 +13,7 @@ public class ItemService {
 
     Scanner scanner = new Scanner(System.in); // 나중에 지우기
     PurchaseListService purchaseListService;
-    String loggedInUserID = null;
+    String loggedInUserId = null;
     MemberDAO memberDAO;
     ItemDAO itemDAO;
     PurchaseListDAO purchaseListDAO;
@@ -25,6 +25,9 @@ public class ItemService {
         purchaseListDAO = new PurchaseListDAO(conn);
         cartListDAO = new CartListDAO(conn);
         purchaseListService = new PurchaseListService(conn);
+    }
+    public void setLoggedInUserId(String loggedInUserId) {
+        this.loggedInUserId = loggedInUserId;
     }
 
     public boolean allItemList() {
@@ -43,7 +46,7 @@ public class ItemService {
             return false;
     }
 
-    public boolean detailItemSearch() {
+    public boolean detailItemSearch(String loggedInUserID) {
         int itemId = -1; // 아이템 ID를 -1로 초기화
 
         while (itemId == -1) { // 아이템 ID가 유효하지 않은 경우 반복
@@ -103,7 +106,7 @@ public class ItemService {
                 case "1":
                     //장바구니 넣는 메서드
                     System.out.println("상품상세조회로 이동합니다.");
-                    detailItemSearch();
+                    detailItemSearch(loggedInUserId);
                     return true;
 
                 case "9":
@@ -136,7 +139,7 @@ public class ItemService {
             switch (menuNo) {
                 case "1":   //전체상품구매(구매결정)
                     System.out.println("**구매결정**");
-                    stat = purchaseListService.purchaseBefore(); // 구매 결정하기 전에 장바구니 금액합계 보여주고 결제시키는 것까지 들어있음
+                    stat = purchaseListService.purchaseBefore(loggedInUserId); // 구매 결정하기 전에 장바구니 금액합계 보여주고 결제시키는 것까지 들어있음
                     break;
                 case "2":
                     stat = cartListDAO.deleteFromCartlist();

@@ -32,6 +32,7 @@ public class UserView {
 
 
     public void userLoginPassMenu() {
+        itemService.setLoggedInUserId(loggedInUserId);
         System.out.println();
         String menuNo;
 
@@ -47,7 +48,7 @@ public class UserView {
                     stat = itemService.allItemList();
                     break;
                 case "2":
-                    stat = itemService.detailItemSearch();
+                    stat = itemService.detailItemSearch(loggedInUserId);
                     break;
                 case "3":
                     stat = purchaseListService.UserPurchaseList(loggedInUserId);

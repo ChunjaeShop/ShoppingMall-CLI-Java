@@ -66,7 +66,7 @@ public class PurchaseListService {
     }
 
     //2-5-1.구매결정(결제테이블)
-    public boolean purchaseBefore(){
+    public boolean purchaseBefore(String loggedInUserID){
         System.out.println();
         System.out.println("［구매결정］");
         System.out.println("----------------------------------------------");

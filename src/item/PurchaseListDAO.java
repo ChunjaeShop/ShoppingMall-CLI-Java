@@ -301,6 +301,11 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
                     PreparedStatement pstmt = conn.prepareStatement(sql);
                     pstmt.setString(1, loggedInUserID);
                     pstmt.executeUpdate();
+                    pstmt.close(); // cartlist에서 삭제
+
+                    String deleteSql = "DELETE FROM cartlist WHERE user_id = ?";
+                    pstmt.setString(1, loggedInUserID);
+                    pstmt.executeUpdate();
                     pstmt.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
