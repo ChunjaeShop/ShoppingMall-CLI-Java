@@ -26,11 +26,11 @@ public class AdminMain {
         boolean stat = true;
 
         do {
-            System.out.println("-----------------------------------------------------------------------------------");
+            System.out.println("-------------------------------------------------------");
             System.out.println("* 관리자님 환영합니다! **");
-            System.out.println("[1.상품전체보기]  [2.주문내역조회] ");
-            System.out.println("-----------------------------------------------------------------------------------");
-            System.out.print("메뉴 선택 :");
+            System.out.println("1.상품전체보기\t\t2.주문내역조회");
+            System.out.println("-------------------------------------------------------");
+            System.out.print("메뉴 선택 >");
             menuNo = scanner.nextLine();
 
             switch (menuNo) {
@@ -67,7 +67,7 @@ public class AdminMain {
         try {
             String sql =
                     "SELECT category_id, item_id, item_name, size, purchase_cnt, remain, price, item_contents " +
-                            "FROM  item ";
+                    "FROM  item ";
             // SELECT bno, btitle, bcontent, bwriter, bdate FROM boards ORDER BY bno DESC
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -103,10 +103,10 @@ public class AdminMain {
         boolean stat = true;
         do {
             allItemList();
-            System.out.println("-----------------------------------------------------------------------------------");
-            System.out.println("[1.상품등록]   [2.상품정보수정]   [3.상품삭제]   [9.뒤로가기]");
-            System.out.println("-----------------------------------------------------------------------------------");
-            System.out.print("메뉴 선택 : ");
+            System.out.println("-------------------------------------------------------");
+            System.out.println("1.상품등록 | 2.상품정보수정 | 3.상품삭제 | 9.뒤로가기");
+            System.out.println("-------------------------------------------------------");
+            System.out.print("메뉴 선택 > ");
             menuNo = scanner.nextLine();
 
             switch (menuNo) {
@@ -143,8 +143,8 @@ public class AdminMain {
         item.setRemain(scanner.nextInt());
         scanner.nextLine();
 
-        System.out.println("-------------------------------------------------------------------------");
-        System.out.println("메뉴: 1.상품등록완료 | 9.뒤로가기");
+        System.out.println("-------------------------------------------------------");
+        System.out.println("1.상품등록완료 | 9.뒤로가기");
         System.out.print("메뉴 선택: ");
         String subMenuNo = scanner.nextLine();
         if (subMenuNo.equals("1")) {
@@ -158,16 +158,15 @@ public class AdminMain {
 
             }
         }
-
         return false;
     }
 
     public boolean editItemMenu() { // 3-1-2 상품정보수정 메뉴 // 작업중
-        System.out.println("-------------------------------------------------------------------------");
+        System.out.println("-------------------------------------------------------");
         System.out.print("수정할 상품 ID : ");
         int itemId = scanner.nextInt();
         scanner.nextLine();
-        System.out.println("수정 메뉴: 1.재고수정  2.정보전체수정  9.뒤로가기");
+        System.out.println("1.재고수정 | 2.정보전체수정 | 9.뒤로가기");
         System.out.print("메뉴 선택: ");
         String subMenuNo = scanner.nextLine();
         if (subMenuNo.equals("1")) {    // 3-1-2-1 재고수정
@@ -210,8 +209,8 @@ public class AdminMain {
         System.out.print("상품설명: ");
         item.setContent(scanner.nextLine());
 
-        System.out.println("-------------------------------------------------------------------------");
-        System.out.println("메뉴: 1.수정 | 9.뒤로가기");
+        System.out.println("-------------------------------------------------------");
+        System.out.println("1.수정 | 9.뒤로가기");
         System.out.print("메뉴 선택: ");
         String subMenuNo = scanner.nextLine();
         if (subMenuNo.equals("1")) {
@@ -229,7 +228,7 @@ public class AdminMain {
     }
 
     public boolean removeItem(){ // 3-1-2-3 상품삭제
-        System.out.println("-------------------------------------------------------------------------");
+        System.out.println("-------------------------------------------------------");
         System.out.print("삭제할 상품 ID : ");
         int itemId = scanner.nextInt();
         scanner.nextLine();
@@ -269,7 +268,7 @@ public class AdminMain {
         try {
             String sql =
                     "SELECT category_id, item_id, item_name, size, purchase_cnt, remain, price, item_contents " +
-                            "FROM  item ";
+                    "FROM  item ";
             // SELECT bno, btitle, bcontent, bwriter, bdate FROM boards ORDER BY bno DESC
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
