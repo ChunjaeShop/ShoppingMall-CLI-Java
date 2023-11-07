@@ -132,7 +132,7 @@ public class ItemService {
             cartListDAO.printCartList(loggedInUserId); // cartlist 테이블에서 가져와서 장바구니 전체 리스트 출력해줌
 
 
-            System.out.println("-------------------------------------------------------");
+            System.out.println("-------------------------------------------------------------------------");
             System.out.println("1.전체상품구매(구매결정) | 2.장바구니에서 삭제 | 9.뒤로가기");
             System.out.print("메뉴 선택 >");
             String menuNo = scanner.nextLine();
