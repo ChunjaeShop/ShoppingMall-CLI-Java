@@ -25,26 +25,32 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
     public boolean printUsersPurchaseList(String loggedInUserID) { // SQL문 purchase_list로 수정하기
         System.out.println("［주문/배송 조회］");
         System.out.println("------------------------------------------------------------------");
-        System.out.printf("%-10s%-20s%-10s%-20s%-10s\n", "Order ID", "Item Name", "Price", "Order Date", "Status");
+        System.out.printf("%-10s| %-10s\t\t| %-10s\t| %-20s\n", "Order ID", "Item Name", "Price", "Order Date");
         System.out.println("------------------------------------------------------------------");
         try {
-            String sql = "SELECT item_order.order_id, item.item_name, item.price, " +
-                    "item_order.order_date, item_order.status " +
-                    "FROM item_order " +
-                    "JOIN item ON item_order.item_id = item.item_id " +
-                    "WHERE item_order.user_id = ?";
+            //결제테이블의 number, 상품명, 가격, 주문날짜, member테이블의 주소, 결제테이블의 전화번호 출력
+            String sql =
+                    "SELECT p.purchase_no, p.item_name, p.price, p.order_date " +
+                            "FROM purchase_list p, member m WHERE p.user_id=m.user_id AND p.user_id=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, loggedInUserID);
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                int orderID = rs.getInt("order_id");
-                String itemName = rs.getString("item_name");
-                int price = rs.getInt("price");
-                Timestamp orderDate = rs.getTimestamp("order_date");
-                String status = rs.getString("status");
-                System.out.printf("%-20s%-20s%-20s%-20s%-20s\n", orderID, itemName, price, orderDate, status);
+
+                Purchase_listDTO purchaseListDTO = new Purchase_listDTO();
+                MemberDTO memberDTO = new MemberDTO();
+
+                purchaseListDTO.setPurchaseNo(rs.getInt("purchase_no"));
+                purchaseListDTO.setItemName(rs.getString("item_name"));
+                purchaseListDTO.setPrice(rs.getInt("price"));
+                purchaseListDTO.setPurchaseDate(rs.getString("order_date"));
+                System.out.printf("%-10s| %-10s\t| %-10s\t| %-20s\n",
+                        purchaseListDTO.getPurchaseNo(),
+                        purchaseListDTO.getItemName(),
+                        purchaseListDTO.getPrice(),
+                        purchaseListDTO.getPurchaseDate());
             }
             rs.close();
             pstmt.close();
@@ -52,7 +58,35 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
 
         } catch (SQLException e) {
             e.printStackTrace();
+
         }
+//
+//        try {
+//            String sql = "SELECT item_order.order_id, item.item_name, item.price, " +
+//                    "item_order.order_date, item_order.status " +
+//                    "FROM item_order " +
+//                    "JOIN item ON item_order.item_id = item.item_id " +
+//                    "WHERE item_order.user_id = ?";
+//
+//            PreparedStatement pstmt = conn.prepareStatement(sql);
+//            pstmt.setString(1, loggedInUserID);
+//            ResultSet rs = pstmt.executeQuery();
+//
+//            while (rs.next()) {
+//                int orderID = rs.getInt("order_id");
+//                String itemName = rs.getString("item_name");
+//                int price = rs.getInt("price");
+//                Timestamp orderDate = rs.getTimestamp("order_date");
+//                String status = rs.getString("status");
+//                System.out.printf("%-20s%-20s%-20s%-20s%-20s\n", orderID, itemName, price, orderDate, status);
+//            }
+//            rs.close();
+//            pstmt.close();
+//            return true;
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         return false;
     }
 

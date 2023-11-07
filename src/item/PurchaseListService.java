@@ -3,6 +3,7 @@ package item;
 import Util.ScannerUtil;
 import user.MemberDAO;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.util.Scanner;
 
@@ -43,13 +44,19 @@ public class PurchaseListService {
                         System.out.print("수정할 주문의 Order ID를 입력하세요: ");
                         selectedOrderID = Integer.parseInt(scanner.nextLine());
                         stat = purchaseListDAO.modifyPurchsaseList(selectedOrderID, loggedInUserID); // 주소 수정 성공하면 true, 아니면 false
-                        return true; // 주문 수정 성공하면 바로 true반환하여 userLoginPassMenu로 돌아가기
+                        if(stat)
+                            return false;
+                        else
+                            return true; // 주문 수정 성공하면 바로 true반환하여 userLoginPassMenu로 돌아가기
 
                     case "2": // 주문 취소
-                        System.out.print("수정할 주문의 Order ID를 입력하세요: ");
+                        System.out.print("취소할 주문의 Order ID를 입력하세요: ");
                         selectedOrderID = Integer.parseInt(scanner.nextLine());
                         stat = purchaseListDAO.cancelPurchase(selectedOrderID, loggedInUserID); // 주소 수정 성공하면 true, 아니면 false
-                        return true; // 주문 취소 성공하면 바로 true반환하여 userLoginPassMenu로 돌아가기
+                        if(stat)
+                            return false;
+                        else
+                            return true; // 주문 취소 성공하면 바로 true반환하여 userLoginPassMenu로 돌아가기
 
                     case "9":
                         return true;
