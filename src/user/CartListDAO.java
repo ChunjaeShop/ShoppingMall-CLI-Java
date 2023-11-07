@@ -117,6 +117,4 @@ public class CartListDAO { // purchase_list와 item_order가 같은 역할인 �
             return true;
         }
     }
-
-
 }

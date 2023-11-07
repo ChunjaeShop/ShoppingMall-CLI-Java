@@ -58,13 +58,13 @@ public class ItemService {
         }
         boolean printResult = itemDAO.printItemDetail(itemId); // 출력
         if (printResult) // itemId로 상세조회를 성공하면
-            addCart(itemId);// 장바구니 담기 메뉴 보이기
+            addCart(loggedInUserID, itemId);// 장바구니 담기 메뉴 보이기
         else    // 상세조회 실패하면
             return false;
     return true;
     }
 
-    public void addCart(int itemId){ // 장바구니 담기
+    public void addCart(String loggedInUserID, int itemId){ // 장바구니 담기
         boolean stat = true;
         do {
             System.out.println("--------------------------------------------------------------------------------------------------");
