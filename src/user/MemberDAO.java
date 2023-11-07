@@ -32,7 +32,7 @@ public class MemberDAO {
     public static boolean joinConfirm(MemberDTO memberDTO) {
         String sql =
                 "INSERT INTO member (name, user_id, user_pw, address, gender, height_cm, phone, birth) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, memberDTO.getName());
@@ -57,8 +57,8 @@ public class MemberDAO {
         try {
             String sql =
                     "SELECT name, user_id, user_pw, address, phone " +
-                            "FROM  member " +
-                            "WHERE user_id=?";
+                    "FROM  member " +
+                    "WHERE user_id=?";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, loggedInUserID); // loggedInUserID를 사용하여 쿼리에 사용자 ID 설정
@@ -88,8 +88,8 @@ public class MemberDAO {
         try {
             String sql =
                     "Update member set user_pw = COALESCE(?, user_pw), " +
-                            "address = COALESCE(?, address), phone = COALESCE(?, phone) " +
-                            "WHERE user_id=?";
+                    "address = COALESCE(?, address), phone = COALESCE(?, phone) " +
+                    "WHERE user_id=?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             if (!newMemberinfo.getUserPw().isEmpty()) {
                 pstmt.setString(1, newMemberinfo.getUserPw());
