@@ -19,7 +19,7 @@ public class ItemDAO {
         try {
             String sql =
                     "SELECT category_id, item_id, item_name, price " +
-                            "FROM  item";
+                    "FROM  item";
             // SELECT bno, btitle, bcontent, bwriter, bdate FROM boards ORDER BY bno DESC
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -29,7 +29,7 @@ public class ItemDAO {
                 itemdao.setItemId(rs.getInt("item_id"));
                 itemdao.setItemName(rs.getString("item_name"));
                 itemdao.setPrice(rs.getInt("price"));
-                System.out.printf("%-20s%-20s%-20s%-20s%n",
+                System.out.printf("%-10s| %-10s\t| %-10s\t| %-10s\n",
                         itemdao.getCategoryId(),
                         itemdao.getItemId(),
                         itemdao.getItemName(),
@@ -48,8 +48,8 @@ public class ItemDAO {
     public boolean printItemDetail(int itemId){
         try {
             String sql = "SELECT item_name, price, remain, purchase_cnt, item_contents " +
-                    "FROM item " +
-                    "WHERE item_id=?";
+                         "FROM item " +
+                         "WHERE item_id=?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, itemId);
             ResultSet rs = pstmt.executeQuery();
@@ -92,7 +92,7 @@ public class ItemDAO {
         try {
             String sql =
                     "INSERT INTO item (category_id, item_name, size, purchase_cnt, remain, price, item_contents) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, item.getCategoryId());
             pstmt.setString(2, item.getItemName());
@@ -118,8 +118,8 @@ public class ItemDAO {
     public boolean updateItemRemain(int itemId, int newRemain){
         try {
             String sql =
-                    "Update item set remain = COALESCE(?, remain) " +
-                            "WHERE item_id=?";
+                    "UPDATE item set remain = COALESCE(?, remain) " +
+                    "WHERE item_id=?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, newRemain);
             pstmt.setInt(2, itemId);
@@ -138,7 +138,7 @@ public class ItemDAO {
         try {
 
             String sql =
-                    "Update item SET item_name = ?, " +
+                    "UPDATE item SET item_name = ?, " +
                             "size = ?, remain = ?, " +
                             "price = ?, item_contents = ? " +
                             "WHERE item_id=?";
@@ -198,9 +198,9 @@ public class ItemDAO {
     public void printItemRanking(){
         try {
             String sql = "SELECT item_id, item_name, purchase_cnt, price " +
-                    "FROM item " +
-                    "ORDER BY purchase_cnt DESC " +
-                    "limit 10";// 누적판매량 순으로 내림차순 정렬
+                         "FROM item " +
+                         "ORDER BY purchase_cnt DESC " +
+                         "limit 10";// 누적판매량 순으로 내림차순 정렬
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             int rank = 1; // 순위 변수 초기화
@@ -210,7 +210,7 @@ public class ItemDAO {
                 itemdao.setItemName(rs.getString("item_name"));
                 itemdao.setPurchaseCnt(rs.getInt("purchase_cnt"));
                 itemdao.setPrice(rs.getInt("price"));
-                System.out.printf("%-20s%-20s%-20s%-20s\n",
+                System.out.printf("%-10s| %-10s\t| %-10s\t| %-10s\n",
                         rank,
                         itemdao.getItemName(),
                         itemdao.getPurchaseCnt(),
