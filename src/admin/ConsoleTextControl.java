@@ -25,4 +25,7 @@ public class ConsoleTextControl {
 
         System.out.println(color+massge);
     }
+    public void resetColor(){
+        System.out.print("\u001B[0m");
+    }
 }

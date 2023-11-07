@@ -10,6 +10,7 @@ public class ScannerUtil { // 메
         String menuNo =  scanner.nextLine();
         return menuNo;
     }
+
     public void scanString(){
         //scanner.next
 

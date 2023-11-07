@@ -39,9 +39,10 @@ public class UserView {
         boolean stat = true;
         int result = 0;
         do { // userLoginPassMenu의 메뉴들을 실행 완료하면 stat으로 true 반환
-            consoleTextControl.logMassge("\t\t\t[천재쇼핑몰 Main Menu]", "green");
-            consoleTextControl.logMassge("","exit");
-            System.out.println("-------------------------------------------------------");
+            consoleTextControl.logMassge("┌------------------------------------------------------┐", "green");
+            consoleTextControl.logMassge("│\t\t\t\t [천재쇼핑몰 Main Menu]\t\t\t\t   │", "green");
+            consoleTextControl.logMassge("└------------------------------------------------------┘", "green");
+            consoleTextControl.resetColor();
             System.out.println("1.상품전체보기\t\t2.상품상세조회\t\t3.주문/배송조회");
             System.out.println("4.Top10상품보기\t\t5.장바구니\t\t\t9.내정보확인");
             System.out.println("0.로그아웃/종료");
