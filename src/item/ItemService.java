@@ -36,7 +36,7 @@ public class ItemService {
         System.out.println();
         System.out.println("［상품 전체 보기］");
         System.out.println("-------------------------------------------------------------------------");
-        System.out.printf("%-20s%-20s%-20s%-20s%n", "category_id", "item_id", "item_name", "price");
+        System.out.printf("%-10s| %-10s\t| %-10s\t| %-10s\n", "category_id", "item_id", "item_name", "price");
         System.out.println("-------------------------------------------------------------------------");
 
         boolean result = itemDAO.printAllItemList(); // boards 테이블에서 게시물 정보를 가져와서 출력하기
@@ -93,7 +93,7 @@ public class ItemService {
         System.out.println();
         System.out.println("-----------------------------［상품순위］----------------------------------");
         System.out.println("-------------------------------------------------------------------------");
-        System.out.printf("%-20s%-20s%-15s%-20s\n", "순위", "상품이름", "누적판매량", "가격");
+        System.out.printf("%-10s| %-10s\t| %-10s\t| %-10s\n", "순위", "상품이름", "누적판매량", "가격");
         itemDAO.printItemRanking();
 
         String menuNo;
@@ -127,7 +127,7 @@ public class ItemService {
             System.out.println();
             System.out.println("［장바구니］");
             System.out.println("-------------------------------------------------------------------------");
-            System.out.printf("%-20s%-20s%-20s\n", "no", "상품명", "가격");
+            System.out.printf("%-10s| %-10s\t| %-10s\n", "no", "상품명", "가격");
             System.out.println("-------------------------------------------------------------------------");
             cartListDAO.printCartList(loggedInUserId); // cartlist 테이블에서 가져와서 장바구니 전체 리스트 출력해줌
 
