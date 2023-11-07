@@ -75,18 +75,18 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
 
                 System.out.println();
                 System.out.println("［수정하려는 주문 정보］");
-                System.out.println("------------------------------------------------------------------");
+                System.out.println("-------------------------------------------------------");
                 System.out.println("Order ID: " + orderID);
                 System.out.println("Item Name: " + itemName);
                 System.out.println("Address: " + address);
-                System.out.println("------------------------------------------------------------------");
+                System.out.println("-------------------------------------------------------");
 
                 String menuNo;
 
                 do {
                     System.out.println();
-                    System.out.println("메뉴 : [1.배송지 수정] [9.뒤로 가기-구현확인] [0.처음으로]");
-                    System.out.print("메뉴 선택 :");
+                    System.out.println("1.배송지 수정 | 9.뒤로 가기-구현확인 | 0.처음으로");
+                    System.out.print("메뉴 선택 >");
                     menuNo = scanner.nextLine();
 
                     switch (menuNo) {
@@ -140,7 +140,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
 
     public boolean cancelPurchase(int orderID, String loggedInUserID) {
         System.out.println("[주문 취소]");
-        System.out.println("------------------------------------------");
+        System.out.println("-------------------------------------------------------");
 
         try {
             String itemName = getItemNameByOrderID(orderID,loggedInUserID); // 주문 ID를 사용하여 상품명 가져오기
@@ -148,8 +148,8 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
             if (itemName != null) {
                 System.out.println("상품명: " + itemName);
                 System.out.println("주문 ID: " + orderID);
-                System.out.println("[" + orderID + "] 주문을 취소하시겠습니까? 1.확인 9.뒤로가기");
-                System.out.print("메뉴 선택: ");
+                System.out.println("[" + orderID + "] 주문을 취소하시겠습니까? 1.확인 | 9.뒤로가기");
+                System.out.print("메뉴 선택 >");
 
                 String menuNo = scanner.nextLine();
                 switch (menuNo) {
@@ -249,9 +249,9 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
         // 주문 전 주소, 전화번호 확인용으로 인적사항 재확인
         System.out.println();
         System.out.println("주문 전 주소와 전화번호를 확인해주세요");
-        System.out.println("----------------------------------------------");
+        System.out.println("-------------------------------------------------------");
         System.out.printf("%-20s%-20s\n", "주소", "전화번호");
-        System.out.println("----------------------------------------------");
+        System.out.println("-------------------------------------------------------");
 
         // cartlist 테이블에서 가져와서 출력해줌
         try {
@@ -285,9 +285,9 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
         }
 
         System.out.println();
-        System.out.println("--------------------------------------------------------------------------------------------------");
-        System.out.println("메뉴 : [1.확인] [2.주소/전화번호 변경] [9.뒤로 가기]");
-        System.out.print("메뉴 선택 :");
+        System.out.println("-------------------------------------------------------");
+        System.out.println("1.확인 | 2.주소/전화번호 변경 | 9.뒤로 가기");
+        System.out.print("메뉴 선택 >");
         String menuNo = scanner.nextLine();
 
         switch (menuNo) {
@@ -379,13 +379,13 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
     public void Alter_PurchaseInfo(){
         MemberDTO memberDto = new MemberDTO();
         System.out.println();
-        System.out.println("주소/전화번호 변경");
-        System.out.println("-----------------------------------------------------------------------------------");
-        System.out.print("[주소 수정] :");
+        System.out.println("[주소/전화번호 변경]");
+        System.out.println("-------------------------------------------------------");
+        System.out.print("주소:");
         memberDto.setAddress(scanner.nextLine());
-        System.out.print("[전화번호 수정 ] : ");
+        System.out.print("전화번호 수정: ");
         memberDto.setPhone(scanner.nextLine());
-        System.out.println("-----------------------------------------------------------------------------------");
+        System.out.println("-------------------------------------------------------");
 
         try {
             String sql =

@@ -70,8 +70,8 @@ public class ItemService {
     public void addCart(String loggedInUserID, int itemId){ // 장바구니 담기
         boolean stat = true;
         do {
-            System.out.println("--------------------------------------------------------------------------------------------------");
-            System.out.println("메뉴 : [1.장바구니담기] [9.뒤로가기]");
+            System.out.println("-------------------------------------------------------");
+            System.out.println("1.장바구니담기 | 9.뒤로가기");
             // -----아래로는 컨트롤러 옮기기
             switch (scannerUtil.scanMenu()) {
                 case "1":
@@ -99,8 +99,8 @@ public class ItemService {
         String menuNo;
 
         do {
-            System.out.println("메뉴: 1. 상품상세조회 9. 뒤로가기");
-            System.out.print("메뉴 선택 :");
+            System.out.println("1.상품상세조회 | 9.뒤로가기");
+            System.out.print("메뉴 선택 >");
             menuNo = scanner.nextLine();
 
             switch (menuNo) {
@@ -132,9 +132,9 @@ public class ItemService {
             cartListDAO.printCartList(loggedInUserId); // cartlist 테이블에서 가져와서 장바구니 전체 리스트 출력해줌
 
 
-            System.out.println("--------------------------------------------------------------------------------------------------");
-            System.out.println("메뉴 : [1.전체상품구매(구매결정)] [2.장바구니에서 삭제] [9.뒤로가기]");
-            System.out.print("메뉴 선택 :");
+            System.out.println("-------------------------------------------------------");
+            System.out.println("1.전체상품구매(구매결정) | 2.장바구니에서 삭제 | 9.뒤로가기");
+            System.out.print("메뉴 선택 >");
             String menuNo = scanner.nextLine();
 
             switch (menuNo) {
