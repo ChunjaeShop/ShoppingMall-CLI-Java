@@ -35,7 +35,7 @@ public class UserService {
             } while (userID.isEmpty());
             System.out.print("비밀번호 입력: ");
             String userPassword = scanner.nextLine();
-            System.out.print("1.로그인  9.뒤로가기 : ");
+            System.out.print("1.로그인 | 9.뒤로가기 : ");
             String startLogin = scanner.nextLine();
             if (startLogin.equals("1")) {
                 int loginResult = memberDAO.loginConfirm(userID, userPassword);
@@ -85,9 +85,9 @@ public class UserService {
         System.out.print("생년월일: ");
         memberDTO.setBirth(scanner.nextLine());
 
-        System.out.println("-------------------------------------------------------------------------");
-        System.out.println("보조 메뉴: 1.회원가입 | 2.취소");
-        System.out.print("메뉴 선택: ");
+        System.out.println("-------------------------------------------------------");
+        System.out.println("보조 메뉴 : 1.회원가입 | 2.취소");
+        System.out.print("메뉴 선택 : ");
         String menuNo = scanner.nextLine();
         if (menuNo.equals("1")) { // 정보입력 후 1.회원가입 메뉴 선택
             boolean resultStat = memberDAO.joinConfirm(memberDTO); // joinConfirm()으로 Insert SQL 실행
@@ -107,13 +107,13 @@ public class UserService {
             System.out.println();
             System.out.println("［내 정보 확인］");
             System.out.println("현재 정보");
-            System.out.println("-------------------------------------------------------------------------");
+            System.out.println("-------------------------------------------------------");
             boolean printStat = memberDAO.printMyInfo(loggedInUserID);
             String menuNo;
             do{
                 System.out.println();
-                System.out.println("--------------------------------------------------------------------------------------------------");
-                System.out.println("메뉴 : [1.수정] [9.뒤로가기]");
+                System.out.println("-------------------------------------------------------");
+                System.out.println("메뉴 : 1.수정 | 9.뒤로가기");
                 System.out.print("메뉴 선택 :");
                 menuNo = scanner.nextLine();
 
