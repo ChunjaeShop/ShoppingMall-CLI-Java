@@ -45,7 +45,7 @@ public class UserView {
             consoleTextControl.resetColor();
             System.out.println("1.상품전체보기\t\t2.상품상세조회\t\t3.주문/배송조회");
             System.out.println("4.Top10상품보기\t\t5.장바구니\t\t\t9.내정보확인");
-            System.out.println("0.로그아웃/종료");
+            System.out.println("0.종료");
             System.out.println("-------------------------------------------------------");
 
             switch (cs.scanMenu()) {
