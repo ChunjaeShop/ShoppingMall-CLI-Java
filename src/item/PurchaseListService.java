@@ -22,62 +22,7 @@ public class PurchaseListService {
         purchaseListDAO = new PurchaseListDAO(conn);
     }
 
-    public boolean AllItemList() {
 
-        // 타이틀 및 컬럼명 출력
-        System.out.println();
-        System.out.println("［상품 전체 보기］");
-        System.out.println("-------------------------------------------------------------------------");
-        System.out.printf("%-20s%-20s%-20s%-20s%n", "category_id", "item_id", "item_name", "price");
-        System.out.println("-------------------------------------------------------------------------");
-
-        boolean result = itemDAO.printAllItemList(); // boards 테이블에서 게시물 정보를 가져와서 출력하기
-        if(result)
-            return true;
-        else
-            return false;
-    }
-
-    public boolean DetailItemSearch() {
-        int itemId = -1; // 아이템 ID를 -1로 초기화
-
-        while (itemId == -1) { // 아이템 ID가 유효하지 않은 경우 반복
-            System.out.println();
-            System.out.print("조회할 상품 ID : ");
-            try {
-                itemId = Integer.parseInt(scanner.nextLine());
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-        boolean printResult = itemDAO.printItemDetail(itemId); // 출력
-        if (printResult) // itemId로 상세조회를 성공하면
-            addCart();// 장바구니 담기 메뉴 -> 실제 동작 구현 필요 중요!!
-        else    // 상세조회 실패하면
-            return false;
-    return true;
-    }
-
-    public void addCart(){ // 장바구니 담기
-        boolean stat = true;
-        do {
-            System.out.println("--------------------------------------------------------------------------------------------------");
-            System.out.println("메뉴 : [1.장바구니담기] [9.뒤로가기]");
-            // -----아래로는 컨트롤러 옮기기
-            switch (scannerUtil.scanMenu()) {
-                case "1":
-                    stat = true; // true 자리에 장바구니 넣는 메서드 ---DAO에 구현하기
-                    System.out.println("상품이 장바구니에 담겼습니다");
-                    break;
-                case "9":
-                    stat = false;
-                    break;
-                default:
-                    System.out.println("유효하지 않은 메뉴입니다. 다시 선택해주세요.");
-            }
-        }while(!stat); // [1.장바구니담기]가 성공하면 true를 반환, 반복문을 탈출해야 함으로 (!stat)으로 조건식 작성
-    }
 
     public boolean UserPurchaseList (String loggedInUserID) {  // 주문배송조회
 
@@ -117,6 +62,38 @@ public class PurchaseListService {
             return true;
         }else {
             return false;
+        }
+    }
+
+    //2-5-1.구매결정(결제테이블)
+    public boolean purchaseBefore(){
+        System.out.println();
+        System.out.println("［구매결정］");
+        System.out.println("----------------------------------------------");
+        System.out.printf("%-20s\n", "총금액");
+        // 구매결정 테이블에 보여줄 목록 [총금액]
+        System.out.println("----------------------------------------------");
+
+        purchaseListDAO.printCartPriceSum(loggedInUserID);// cartlist 테이블에서 가져와서 총금액 출력해줌
+
+        while(true) { // 무한반복을 잘못 사용한 것은 아닐지 확인 필요 - merger
+        //부메뉴 출력
+        System.out.println("----------------------------------------------");
+        System.out.println("구매하시겠습니까? [1.구매(결제)] [9.뒤로가기]");
+        System.out.print("메뉴 선택 :");
+        String menuNo = scanner.nextLine();
+
+            switch (menuNo) {
+                case "1":
+                    //2-5-1-1.결제 이동
+                    purchaseListDAO.insertIntoPurchaseList(loggedInUserID); // DB purchase_list에 insert하는게 메인 코드 앞뒤로 select써서 내용 출력시킴
+                    return true;
+                case "9":
+                    //2-5. 장바구니 이동
+                    return false;
+                default:
+                    System.out.println("유효하지 않은 메뉴입니다.");
+            }
         }
     }
 }

@@ -810,85 +810,100 @@ public class Shop1 {
 //        }while(!menuNo.equals("2")&&!menuNo.equals("9"));
 //    }
 //
-//    //장바구니--------------------------------------------------------------------------------------------------
+
+//    //장바구니---------------------------------------------------------------------
+//
 //    //2-5. 장바구니
 //    public void Cart() {
 //
-//        // 장바구니 -- no, 상품명, 가격 출력
+//        // 장바구니 -- "no, 상품명, 가격  출력"
 //        System.out.println();
 //        System.out.println("［장바구니］");
 //        System.out.println("-------------------------------------------------------------------------");
-//        System.out.printf("%-20s%-20s%-20s\n", "no", "상품명","가격");
+//        System.out.printf("%-20s%-20s%-20s%-20s\n", "no", "아이디", "상품명","가격");
 //        System.out.println("-------------------------------------------------------------------------");
 //
-//        // cartlist 테이블에서 가져와서 출력해줌
+//        // (조건=cartlist의 user_id와 member 테이블의 user_id 가 동일해야함)
+//        // cartlist 테이블의 cart_id, item_name, price 출력
 //        try {
 //            String sql =
-//                    "SELECT cart_id, item_name, price FROM cartlist a, member m Where a.user_id=m.user_id";
+//                    "SELECT a.user_id, a.cart_id, a.item_name, a.price "+
+//                            "FROM cartlist a, member m "+
+//                            "Where a.user_id=m.user_id AND a.user_id=?";
 //
-//            // SELECT cart_id, item_name, price From cartlist;
 //            PreparedStatement pstmt = conn.prepareStatement(sql);
+//            pstmt.setString(1, loggedInUserID);
 //            ResultSet rs = pstmt.executeQuery();
 //
+//            //상품리스트 (cart_id, item_name, price) 순서대로 보여주기
 //            while (rs.next()) {
 //                CartlistDTO cartlistDTO = new CartlistDTO();
 //
 //                cartlistDTO.setCartId(rs.getInt("cart_id"));
+//                cartlistDTO.setUserId(rs.getString("user_id"));
 //                cartlistDTO.setItemName(rs.getString("item_name"));
 //                cartlistDTO.setPrice(rs.getInt("price"));
 //
-//                System.out.printf("%-20s%-20s%-20s\n",
+//                System.out.printf("%-20s%-20s%-20s%-20s\n",
+//                        //cartId, ItemName, Price 출력
 //                        cartlistDTO.getCartId(),
+//                        cartlistDTO.getUserId(),
 //                        cartlistDTO.getItemName(),
 //                        cartlistDTO.getPrice());
 //            }
 //            rs.close();
 //            pstmt.close();
-//        } catch (SQLException e) {
+//        }
+//        catch (SQLException e) {
 //            e.printStackTrace();
-//
 //        }
 //
-//        System.out.println("--------------------------------------------------------------------------------------------------");
+//        //부 메뉴 출력해주기
+//        System.out.println("-------------------------------------------------------------------------");
 //        System.out.println("메뉴 : [1.전체상품구매(구매결정)] [2.장바구니에서 삭제] [9.뒤로가기]");
 //        System.out.print("메뉴 선택 :");
 //        String menuNo = scanner.nextLine();
 //
+//        //부메뉴 출력 후 입력받은 값 조건문
 //        switch(menuNo){
+//            //1. 전체상품구매(구매결정)
 //            case "1" :
-//                //전체상품구매(구매결정)
 //                System.out.println("**구매결정**");
 //                Purchase_before();
 //                break;
 //            case "2" :
+//                //2. 장바구니에서 삭제
 //                Cartlist_delete();
 //                break;
 //            case "9" :
+//                //9. 뒤로가기
 //                LoginPassMenu();
 //                break;
-//
 //        }
-//
-//
 //    }
 //
 //    //2-5-1.구매결정(결제테이블)
 //    public void Purchase_before(){
 //        System.out.println();
 //        System.out.println("［구매결정］");
-//        System.out.println("-------------------------------------------------------------------------");
+//        System.out.println("----------------------------------------------");
 //        System.out.printf("%-20s\n", "총금액");
 //        // 구매결정 테이블에 보여줄 목록 [총금액]
-//        System.out.println("-------------------------------------------------------------------------");
+//        System.out.println("----------------------------------------------");
 //
 //        // cartlist 테이블에서 가져와서 출력해줌
 //        try {
+//            // cartlist, member테이블에서 아이디가 동일한걸 찾고(조건) 장바구니에 담겨있는 물품 가격 총금액을 출력;
 //            String sql =
-//                    "SELECT SUM(price) AS `총금액` FROM cartlist a, member m Where a.user_id=m.user_id";
+//                    "SELECT SUM(price) AS `총금액` "+
+//                            "FROM cartlist a, member m " +
+//                            "WHERE a.user_id=m.user_id AND a.user_id = ?" ;
 //            // `총금액` 변경 시 cartlistDTO.setPrice(rs.getInt("총금액") columnLabel 도 같이 변경(필수)
-//            // cartlist, member테이블에서 아이디가 동일한걸 찾고 장바구니에 담겨있는 물품 가격 총금액을 출력;
+//
 //            PreparedStatement pstmt = conn.prepareStatement(sql);
+//            pstmt.setString(1, loggedInUserID);
 //            ResultSet rs = pstmt.executeQuery();
+//
 //
 //            while (rs.next()) {
 //                CartlistDTO cartlistDTO = new CartlistDTO();
@@ -902,12 +917,12 @@ public class Shop1 {
 //            pstmt.close();
 //        } catch (SQLException e) {
 //            e.printStackTrace();
-//
 //        }
 //
-//        System.out.println("--------------------------------------------------------------------------------------------------");
-//        System.out.println("구매하시겠습니까? [1. 구매(결제)] [9.뒤로가기]");
-//        System.out.println("메뉴 선택 :");
+//        //부메뉴 출력
+//        System.out.println("----------------------------------------------");
+//        System.out.println("구매하시겠습니까? [1.구매(결제)] [9.뒤로가기]");
+//        System.out.print("메뉴 선택 :");
 //        String menuNo = scanner.nextLine();
 //
 //        switch (menuNo) {
@@ -915,36 +930,43 @@ public class Shop1 {
 //                //2-5-1-1.결제 이동
 //                Purchase();
 //                break;
-//
 //            case "9":
+//                //2-5. 장바구니 이동
 //                Cart();
 //                break;
 //        }
-//
 //    }
-//
-//    //2-5-1-1. 결제(인적사항 재확인)
+
+    //2-5-1-1. 결제(인적사항 재확인)
 //    public void Purchase(){
+//
+//        // 주문 전 주소, 전화번호 확인용으로 인적사항 재확인
 //        System.out.println();
 //        System.out.println("주문 전 주소와 전화번호를 확인해주세요");
-//        System.out.println("-------------------------------------------------------------------------");
+//        System.out.println("----------------------------------------------");
 //        System.out.printf("%-20s%-20s\n", "주소", "전화번호");
-//        // 주문 전 주소, 전화번호 확인용으로 인적사항 재확인
-//        System.out.println("-------------------------------------------------------------------------");
+//        System.out.println("----------------------------------------------");
 //
 //        // cartlist 테이블에서 가져와서 출력해줌
 //        try {
-//            String sql =
-//                    "SELECT DISTINCT m.address, m.phone FROM cartlist a, member m WHERE a.user_id=m.user_id;";
-//            // `총금액` 변경 시 cartlistDTO.setPrice(rs.getInt("총금액") columnLabel 도 같이 변경(필수)
 //            // cartlist, member테이블에서 아이디가 동일한걸 찾고 장바구니에 담겨있는 물품 가격 총금액을 출력;
+//            String sql =
+//                    "SELECT DISTINCT m.address, m.phone FROM cartlist a, member m "+
+//                            "WHERE a.user_id=m.user_id AND a.user_id=? ;";
+//            // `총금액` 변경 시 cartlistDTO.setPrice(rs.getInt("총금액") columnLabel 도 같이 변경(필수)
+//            //executeQuery()호출하여 ResultSet 검색
 //            PreparedStatement pstmt = conn.prepareStatement(sql);
+//            pstmt.setString(1, loggedInUserID);
+//            //ResultSet=데이터베이스 쿼리를 실행하여 생성된 데이터 테이블
 //            ResultSet rs = pstmt.executeQuery();
 //
+//            //next()사용하여 레코드 반복
+//            //다음행이 있을경우 true 반환 없을경우 false 반환
 //            while (rs.next()) {
 //                MemberDTO memberDTO = new MemberDTO();
-//
+//                //데이터베이스 열에서 값을 가져옴 getX()메서드
 //                memberDTO.setAddress(rs.getString("address"));
+////                    memberDTO.setUserId(rs.getString("user_id"));
 //                memberDTO.setPhone(rs.getString("phone"));
 //                System.out.printf("%-20s%-20s\n",
 //                        memberDTO.getAddress(),
@@ -955,7 +977,6 @@ public class Shop1 {
 //        }
 //        catch (SQLException e) {
 //            e.printStackTrace();
-//
 //        }
 //
 //        System.out.println();
@@ -964,26 +985,48 @@ public class Shop1 {
 //        System.out.print("메뉴 선택 :");
 //        String menuNo = scanner.nextLine();
 //
+//    /*        switch (menuNo) {
+//
+//                case "1":
+//
+//                    //2-5-1-1-1. 확인 이동
+//                    try {
+//                        //현재 로그인 되어있는 user_id 값에서 cartlist테이블에있는 user_id, item_name, price, now(), phone값을
+//                        //purchase_list 테이블에 데이터값을 넣어줌 (user_id, item_name, price, order_date, phone) 값 순으로
+//                        String sql =
+//                            "INSERT INTO purchase_list(user_id, item_name, price, order_date, phone) "+
+//                            "SELECT c.user_id, c.item_name, c.price, now(), c.phone FROM cartlist c, member m WHERE c.user_id =m.user_id";
+//
+//                        PreparedStatement pstmt = conn.prepareStatement(sql);
+////                        pstmt.setString(1, loggedInUserID);
+////                        pstmt.setString(2, loggedInUserID);
+//                        pstmt.executeUpdate();
+//                        pstmt.close();
+//
+//                    }
+//                    catch (SQLException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//
+//                    Purchase_successful();
+//                    break;
+//*/
+//
 //        switch (menuNo) {
-//
 //            case "1":
-//
-//                //2-5-1-1-1. 확인 이동
 //                try {
 //                    String sql =
-//                            "INSERT INTO purchase_list(user_id, item_name, price, order_date, phone) SELECT user_id, item_name, price, now(), phone FROM cartlist WHERE user_id = 'lmcomputer'";
-//
+//                            "INSERT INTO purchase_list(user_id, item_name, price, order_date, phone) " +
+//                                    "SELECT c.user_id, c.item_name, c.price, now(), c.phone " +
+//                                    "FROM cartlist c, member m WHERE c.user_id = m.user_id AND c.user_id = ?";
 //                    PreparedStatement pstmt = conn.prepareStatement(sql);
-//                    //pstmt.setString(1, loggedInUserID);
-//
+//                    pstmt.setString(1, loggedInUserID);
 //                    pstmt.executeUpdate();
 //                    pstmt.close();
-//
-//
 //                } catch (SQLException e) {
 //                    e.printStackTrace();
 //                }
-//
 //                Purchase_successful();
 //                break;
 //
@@ -996,13 +1039,10 @@ public class Shop1 {
 //                Purchase_before();
 //                break;
 //        }
-//
-//
-//
 //    }
-//
-//
+
 //    //2-5-1-1-1. 확인
+//    //주문 최종 결제 후 화면
 //    public void Purchase_successful(){
 //        System.out.println();
 //        System.out.println("［주문이 완료되었습니다］");
@@ -1016,12 +1056,13 @@ public class Shop1 {
 //
 //        // 주문 리스트 출력
 //        try {
+//            //결제테이블의 number, 상품명, 가격, 주문날짜, member테이블의 주소, 결제테이블의 전화번호 출력
 //            String sql =
 //                    "SELECT p.purchase_no, p.item_name, p.price, p.order_date, m.address, p.phone\n" +
-//                            "FROM purchase_list p, member m where p.user_id='?'";
+//                            "FROM purchase_list p, member m WHERE p.user_id=m.user_id AND p.user_id=?;";
 //
 //            PreparedStatement pstmt = conn.prepareStatement(sql);
-//            pstmt.setString(1,loggedInUserID);
+//            pstmt.setString(1, loggedInUserID);
 //            ResultSet rs = pstmt.executeQuery();
 //
 //            while (rs.next()) {
@@ -1043,7 +1084,6 @@ public class Shop1 {
 //                        memberDTO.getAddress(),
 //                        purchaseListDTO.getPhone());
 //            }
-//
 //            rs.close();
 //            pstmt.close();
 //
@@ -1051,10 +1091,11 @@ public class Shop1 {
 //            e.printStackTrace();
 //
 //        }
+//        //결제 전체 진행 후 회원메뉴로 이동
 //        System.out.println("회원메뉴로 이동합니다");
 //        LoginPassMenu();
 //    }
-//
+
 //    //2-5-1-1-2. 주소/전화번호 변경
 //    public void Alter_PurchaseInfo(){
 //        MemberDTO memberDto = new MemberDTO();
@@ -1070,7 +1111,7 @@ public class Shop1 {
 //        try {
 //            String sql =
 //                    " UPDATE member\n" +
-//                            "SET address=? , phone = ? ";
+//                            "SET address= ? , phone = ? ";
 //            PreparedStatement pstmt = conn.prepareStatement(sql);
 //            pstmt.setString(1, memberDto.getAddress());
 //            pstmt.setString(2, memberDto.getPhone());
@@ -1087,17 +1128,16 @@ public class Shop1 {
 //    }
 //
 //    //2-5-2. 장바구니에서 삭제
-//    public void Cartlist_delete (){
+//    public void Cartlist_delete () {
 //
-//        int cartId=-1;
-//        while(cartId==-1){
+//        int cartId = -1;
+//        while (cartId == -1) {
 //
 //            System.out.println();
 //            System.out.print("삭제할 상품번호 : ");
 //            try {
 //                cartId = Integer.parseInt(scanner.nextLine());
-//            }
-//            catch (Exception e) {
+//            } catch (Exception e) {
 //            }
 //        }
 //        System.out.println("[item_name]을 삭제하시겠습니까?");
@@ -1120,9 +1160,7 @@ public class Shop1 {
 //                    pstmt.close();
 //
 //
-//                }
-//
-//                catch (SQLException e) {
+//                } catch (SQLException e) {
 //                    e.printStackTrace();
 //                }
 //
@@ -1138,15 +1176,10 @@ public class Shop1 {
 //        }
 //
 //
-//
-//
-//
-//
-//
-//
-//
 //    }
-//    //장바구니 완료
+//}
+//장바구니 완료
+
 //
 //
 //

@@ -12,6 +12,7 @@ public class ItemService {
     static ScannerUtil scannerUtil = new ScannerUtil();
 
     Scanner scanner = new Scanner(System.in); // 나중에 지우기
+    PurchaseListService purchaseListService;
     String loggedInUserID = null;
     MemberDAO memberDAO;
     ItemDAO itemDAO;
@@ -23,6 +24,7 @@ public class ItemService {
         itemDAO = new ItemDAO(conn);
         purchaseListDAO = new PurchaseListDAO(conn);
         cartListDAO = new CartListDAO(conn);
+        purchaseListService = new PurchaseListService(conn);
     }
 
     public boolean allItemList() {
@@ -56,13 +58,13 @@ public class ItemService {
         }
         boolean printResult = itemDAO.printItemDetail(itemId); // 출력
         if (printResult) // itemId로 상세조회를 성공하면
-            addCart();// 장바구니 담기 메뉴 -> 실제 동작 구현 필요 중요!!
+            addCart(itemId);// 장바구니 담기 메뉴 보이기
         else    // 상세조회 실패하면
             return false;
     return true;
     }
 
-    public void addCart(){ // 장바구니 담기
+    public void addCart(int itemId){ // 장바구니 담기
         boolean stat = true;
         do {
             System.out.println("--------------------------------------------------------------------------------------------------");
@@ -70,7 +72,7 @@ public class ItemService {
             // -----아래로는 컨트롤러 옮기기
             switch (scannerUtil.scanMenu()) {
                 case "1":
-                    stat = true; // true 자리에 장바구니 넣는 메서드 ---DAO에 구현하기
+                    stat = cartListDAO.insertIntoCartList(loggedInUserID, itemId); // item_name과 price를 전달
                     System.out.println("상품이 장바구니에 담겼습니다");
                     break;
                 case "9":
@@ -115,33 +117,35 @@ public class ItemService {
     }
 
     public boolean cartList(){
-        // 장바구니 -- no, 상품명, 가격 출력
-        System.out.println();
-        System.out.println("［장바구니］");
-        System.out.println("-------------------------------------------------------------------------");
-        System.out.printf("%-20s%-20s%-20s\n", "no", "상품명","가격");
-        System.out.println("-------------------------------------------------------------------------");
-        cartListDAO.printCartList(); // cartlist 테이블에서 가져와서 출력해줌
+        boolean stat = true;
+        do {
+            // 장바구니 -- no, 상품명, 가격 출력
+            System.out.println();
+            System.out.println("［장바구니］");
+            System.out.println("-------------------------------------------------------------------------");
+            System.out.printf("%-20s%-20s%-20s\n", "no", "상품명", "가격");
+            System.out.println("-------------------------------------------------------------------------");
+            cartListDAO.printCartList(); // cartlist 테이블에서 가져와서 장바구니 전체 리스트 출력해줌
 
 
-        System.out.println("--------------------------------------------------------------------------------------------------");
-        System.out.println("메뉴 : [1.전체상품구매(구매결정)] [2.장바구니에서 삭제] [9.뒤로가기]");
-        System.out.print("메뉴 선택 :");
-        String menuNo = scanner.nextLine();
+            System.out.println("--------------------------------------------------------------------------------------------------");
+            System.out.println("메뉴 : [1.전체상품구매(구매결정)] [2.장바구니에서 삭제] [9.뒤로가기]");
+            System.out.print("메뉴 선택 :");
+            String menuNo = scanner.nextLine();
 
-        switch(menuNo){
-            case "1" :   //전체상품구매(구매결정)
-                System.out.println("**구매결정**");
-                //Purchase_before();->지혜new
-                break;
-            case "2" :
-                //Cartlist_delete();->지혜new
-                break;
-            case "9" :
-                //LoginPassMenu();->지혜new
-                break;
+            switch (menuNo) {
+                case "1":   //전체상품구매(구매결정)
+                    System.out.println("**구매결정**");
+                    stat = purchaseListService.purchaseBefore(); // 구매 결정하기 전에 장바구니 금액합계 보여주고 결제시키는 것까지 들어있음
+                    break;
+                case "2":
+                    stat = cartListDAO.deleteFromCartlist();
+                    break;
+                case "9":
+                    return false; // 반복문 탈출하여 userLoginPassMenu로 복귀
 
-        }
+            }
+        }while(stat); // menuNo로 선택된 메뉴 실행 후 해당 내용들이 성공하면 true반환함. 9를 입력하기 전까지 장바구니는 계속 반복해서 출력해줄것으로 조건을 (stat)으로 지정
 
         return false;
     }
