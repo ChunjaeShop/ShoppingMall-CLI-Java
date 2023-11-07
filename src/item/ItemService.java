@@ -83,6 +83,7 @@ public class ItemService {
                     break;
                 default:
                     System.out.println("유효하지 않은 메뉴입니다. 다시 선택해주세요.");
+                    stat = false;
             }
         }while(!stat); // [1.장바구니담기]가 성공하면 true를 반환, 반복문을 탈출해야 함으로 (!stat)으로 조건식 작성
     }
