@@ -22,7 +22,7 @@ public class CartListDAO { // purchase_list와 item_order가 같은 역할인 �
         try {
             String sql =
                     "SELECT cart_id, item_name, price FROM cartlist a, member m " +
-                            "Where a.user_id=m.user_id and a.user_id=?";
+                    "WHERE a.user_id=m.user_id and a.user_id=?";
 
             // SELECT cart_id, item_name, price From cartlist;
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -36,7 +36,7 @@ public class CartListDAO { // purchase_list와 item_order가 같은 역할인 �
                 cartlistDTO.setItemName(rs.getString("item_name"));
                 cartlistDTO.setPrice(rs.getInt("price"));
 
-                System.out.printf("%-20s%-20s%-20s\n",
+                System.out.printf("%-10s| %-10s\t| %-10s\n",
                         cartlistDTO.getCartId(),
                         cartlistDTO.getItemName(),
                         cartlistDTO.getPrice());
@@ -73,7 +73,7 @@ public class CartListDAO { // purchase_list와 item_order가 같은 역할인 �
 
                 try {
                     String sql = "DELETE FROM cartlist " +
-                            "WHERE cart_id= ? ";
+                                 "WHERE cart_id= ? ";
 
                     PreparedStatement pstmt = conn.prepareStatement(sql);
                     pstmt.setInt(1, cartId);
@@ -102,9 +102,9 @@ public class CartListDAO { // purchase_list와 item_order가 같은 역할인 �
     public boolean insertIntoCartList(String user_id, int item_id) {
         try {
             String sql = "INSERT INTO cartlist(user_id, item_name, price, phone) " +
-                    "VALUES (?, (select item_name from item where item_id = ?), " +
-                    "(select price from item where item_id = ?)," +
-                    "(select phone from member where user_id = ?))";
+                         "VALUES (?, (select item_name from item where item_id = ?), " +
+                         "(select price from item where item_id = ?)," +
+                         "(select phone from member where user_id = ?))";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, user_id);
             pstmt.setInt(2, item_id);
