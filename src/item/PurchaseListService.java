@@ -1,14 +1,13 @@
 package item;
 
 import Util.ScannerUtil;
-import user.*;
-
+import user.MemberDAO;
 
 import java.sql.Connection;
 import java.util.Scanner;
 
 // 유저 로그인, 회원가입, 유저가 볼 수 있는 메뉴의 기능들
-public class ItemService {
+public class PurchaseListService {
     static ScannerUtil scannerUtil = new ScannerUtil();
 
     Scanner scanner = new Scanner(System.in); // 나중에 지우기
@@ -17,7 +16,7 @@ public class ItemService {
     ItemDAO itemDAO;
     PurchaseListDAO purchaseListDAO;
 
-    public ItemService(Connection conn) {
+    public PurchaseListService(Connection conn){
         memberDAO = new MemberDAO(conn);
         itemDAO = new ItemDAO(conn);
         purchaseListDAO = new PurchaseListDAO(conn);
@@ -72,7 +71,7 @@ public class ItemService {
                     System.out.println("상품이 장바구니에 담겼습니다");
                     break;
                 case "9":
-                    stat = true;
+                    stat = false;
                     break;
                 default:
                     System.out.println("유효하지 않은 메뉴입니다. 다시 선택해주세요.");
@@ -80,36 +79,44 @@ public class ItemService {
         }while(!stat); // [1.장바구니담기]가 성공하면 true를 반환, 반복문을 탈출해야 함으로 (!stat)으로 조건식 작성
     }
 
-    // TOP10 확인
-    public boolean itemRanking() { // TOP10 출력이 끝나면 1.상세조회 메소드 실행 후 동작 또는 2.바로 loginPassMenu로 돌아가기
-        System.out.println();
-        System.out.println("-----------------------------［상품순위］----------------------------------");
-        System.out.println("-------------------------------------------------------------------------");
-        System.out.printf("%-20s%-20s%-15s%-20s\n", "순위", "상품이름", "누적판매량", "가격");
-        itemDAO.printItemRanking();
+    public boolean UserPurchaseList (String loggedInUserID) {  // 주문배송조회
 
-        String menuNo;
+        boolean result = purchaseListDAO.printUsersPurchaseList(loggedInUserID); // boards 테이블에서 게시물 정보를 가져와서 출력하기
+        if(result) {
+            //userView
+            String menuNo;
+            boolean stat = true;
+            int selectedOrderID;
+            do {
+                System.out.println();
+                System.out.println("메뉴 : [1.주문 수정] [2.주문 취소] [9.뒤로 가기]");
+                System.out.print("메뉴 선택 :");
+                menuNo = scanner.nextLine();
 
-        do {
-            System.out.println("메뉴: 1. 상품상세조회 9. 뒤로가기");
-            System.out.print("메뉴 선택 :");
-            menuNo = scanner.nextLine();
+                switch (menuNo) {
+                    case "1": // 주문 수정
+                        System.out.print("수정할 주문의 Order ID를 입력하세요: ");
+                        selectedOrderID = Integer.parseInt(scanner.nextLine());
+                        stat = purchaseListDAO.modifyPurchsaseList(selectedOrderID, loggedInUserID); // 주소 수정 성공하면 true, 아니면 false
+                        return true; // 주문 수정 성공하면 바로 true반환하여 userLoginPassMenu로 돌아가기
 
-            switch (menuNo) {
-                case "1":
-                    //장바구니 넣는 메서드
-                    System.out.println("상품상세조회로 이동합니다.");
-                    DetailItemSearch();
-                    return true;
+                    case "2": // 주문 취소
+                        System.out.print("수정할 주문의 Order ID를 입력하세요: ");
+                        selectedOrderID = Integer.parseInt(scanner.nextLine());
+                        stat = purchaseListDAO.cancelPurchase(selectedOrderID, loggedInUserID); // 주소 수정 성공하면 true, 아니면 false
+                        return true; // 주문 취소 성공하면 바로 true반환하여 userLoginPassMenu로 돌아가기
 
-                case "9":
-                    return true;
+                    case "9":
+                        return true;
 
-                default:
-                    System.out.println("유효하지 않은 메뉴입니다.");
-            }
-        }while(!menuNo.equals("1")&&!menuNo.equals("9"));
-        return false;
+                    default:
+                        System.out.println("유효하지 않은 메뉴입니다.");
+                }
+
+            } while (stat); //
+            return true;
+        }else {
+            return false;
+        }
     }
-
 }

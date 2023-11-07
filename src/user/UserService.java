@@ -20,7 +20,7 @@ public class UserService {
         itemDAO = new ItemDAO(conn);
     }
 
-    public boolean login(){ // User.login
+    public String login(){ // User.login
         String userID;
         boolean passwordMatched = false;
 
@@ -45,7 +45,7 @@ public class UserService {
             if (loginResult == 1) {             // 로그인 성공
                     loggedInUserID = userID;    // Set the logged-in user ID
                     System.out.println(loggedInUserID + "님 환영합니다!");
-                    return true;
+                    return loggedInUserID; // 로그인 성공하면 String으로 로그인한 ID 반환
                 } else if (loginResult == 0) { // 비밀번호 불일치
                     System.out.println("비밀번호 불일치 id랑 비밀번호를 다시 입력하세요");
                 } else if (loginResult == -1) { // 아이디 없음
@@ -55,16 +55,16 @@ public class UserService {
                         create(); // User.create()실행
                         break;
                     } else { // 회원가입을 원하지 않는다면 메인 메뉴로 돌아가기
-                        return true;
+                        return null;
                     }
                 } else {
                     System.out.println("데이터베이스 오류");
                 }
             }else if(startLogin.equals("9")){ // 9.뒤로가기
-                return true;
+                return null;
             }
         }
-        return false;
+        return null;
     }
     public boolean create(){
         // 나중에 회원가입 입력받는 메뉴 메소드로 분리하기

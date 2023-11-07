@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class ShopMain { // main 메소드 실행하는 클래스
     static MenuView menuView;
-
+    static UserView userView;
 
     public static void main(String [] args) throws IOException {
         DBUtil dbUtil = new DBUtil();
@@ -13,8 +13,10 @@ public class ShopMain { // main 메소드 실행하는 클래스
         int viewMenu = menuView.printLoginMenu(); // 이어서 로그인/회원가입 메뉴 보이기 -> 입력받기
         System.out.println("viewMenu : " + viewMenu);
         switch (viewMenu){
-            case 1:
-                menuView.userLoginPassMenu();
+            case 1: // user logged in
+                userView = new UserView(dbUtil.init());
+                userView.setLoggedInUserId(menuView.getLoggedInUserId());
+                userView.userLoginPassMenu();
                 break;
             case 2:
                 break;

@@ -195,4 +195,33 @@ public class ItemDAO {
 
         return false;
     }
+    public void printItemRanking(){
+        try {
+            String sql = "SELECT item_id, item_name, purchase_cnt, price " +
+                    "FROM item " +
+                    "ORDER BY purchase_cnt DESC " +
+                    "limit 10";// 누적판매량 순으로 내림차순 정렬
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            int rank = 1; // 순위 변수 초기화
+            while (rs.next()) {
+                ItemDTO itemdao = new ItemDTO();
+                itemdao.setItemId(rs.getInt("item_id"));
+                itemdao.setItemName(rs.getString("item_name"));
+                itemdao.setPurchaseCnt(rs.getInt("purchase_cnt"));
+                itemdao.setPrice(rs.getInt("price"));
+                System.out.printf("%-20s%-20s%-20s%-20s\n",
+                        rank,
+                        itemdao.getItemName(),
+                        itemdao.getPurchaseCnt(),
+                        itemdao.getPrice());
+                rank++; // 다음 상품의 순위 증가
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
