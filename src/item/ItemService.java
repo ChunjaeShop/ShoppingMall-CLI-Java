@@ -128,7 +128,7 @@ public class ItemService {
             System.out.println("-------------------------------------------------------------------------");
             System.out.printf("%-20s%-20s%-20s\n", "no", "상품명", "가격");
             System.out.println("-------------------------------------------------------------------------");
-            cartListDAO.printCartList(); // cartlist 테이블에서 가져와서 장바구니 전체 리스트 출력해줌
+            cartListDAO.printCartList(loggedInUserId); // cartlist 테이블에서 가져와서 장바구니 전체 리스트 출력해줌
 
 
             System.out.println("--------------------------------------------------------------------------------------------------");
