@@ -15,7 +15,6 @@ public class DBUtil {
             conn = DriverManager.getConnection(
                     "jdbc:mariadb://127.0.0.1:3306/team_prj",
                     "root", "12345");
-            System.out.println("DB연결성공");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
