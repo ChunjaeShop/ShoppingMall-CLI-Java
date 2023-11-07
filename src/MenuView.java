@@ -26,7 +26,7 @@ public class MenuView {
     }
 
     public void printDisabledMainMenu(){ // 0. 로그인 전 메인메뉴 (비활성화)
-        System.out.println("--------------------------------------------");
+        System.out.println("-------------------------------------------------------");
         consoleTextControl.logMassge("\t\t\t[천재쇼핑몰 Main Menu]", "green");
         consoleTextControl.logMassge("- 로그인 후 메뉴를 이용할 수 있습니다.","white");
         System.out.println("0.상품전체보기\t\t0.상품상세조회\t\t0.주문/배송조회");
@@ -34,7 +34,7 @@ public class MenuView {
     }
 
     public int printLoginMenu(){ // 1. 로그인/회원가입 메뉴
-        System.out.println("--------------------------------------------");
+        System.out.println("-------------------------------------------------------\"");
         System.out.println("1. 회원 로그인 | 2. 회원가입 | 3. 관리자 로그인");
 
         // -----아래로는 컨트롤러 옮기기
