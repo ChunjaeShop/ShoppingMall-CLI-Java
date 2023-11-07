@@ -64,6 +64,7 @@ public class UserView {
                     break;
                 case "0":
                     stat = false;
+                    break;
                 default:
                     System.out.println("유효하지 않은 메뉴입니다.");
             }
