@@ -138,14 +138,13 @@ public class ItemService {
 
             switch (menuNo) {
                 case "1":   //전체상품구매(구매결정)
-                    System.out.println("**구매결정**");
                     stat = purchaseListService.purchaseBefore(loggedInUserId); // 구매 결정하기 전에 장바구니 금액합계 보여주고 결제시키는 것까지 들어있음
                     break;
                 case "2":
                     stat = cartListDAO.deleteFromCartlist();
                     break;
                 case "9":
-                    return false; // 반복문 탈출하여 userLoginPassMenu로 복귀
+                    return true; // 반복문 탈출하여 userLoginPassMenu로 복귀
 
             }
         }while(stat); // menuNo로 선택된 메뉴 실행 후 해당 내용들이 성공하면 true반환함. 9를 입력하기 전까지 장바구니는 계속 반복해서 출력해줄것으로 조건을 (stat)으로 지정

@@ -90,7 +90,7 @@ public class PurchaseListService {
                     return true;
                 case "9":
                     //2-5. 장바구니 이동
-                    return false;
+                    return true;
                 default:
                     System.out.println("유효하지 않은 메뉴입니다.");
             }
