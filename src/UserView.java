@@ -73,7 +73,6 @@ public class UserView {
                     System.out.println("유효하지 않은 메뉴입니다.");
             }
         }while(stat); // 0입력해서 stat이 fasle일 경우에만 반복문 종료
-        System.out.println("프로그램 종료");
     }
 
     public void setLoggedInUserId(String loggedInUserId) {
