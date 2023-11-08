@@ -35,7 +35,7 @@ public class UserService {
             } while (userID.isEmpty());
             System.out.print("비밀번호 입력: ");
             String userPassword = scanner.nextLine();
-            System.out.print("1.로그인 | 9.다시입력 : ");
+            System.out.print("1.로그인 | 9.다시입력: ");
             String startLogin = scanner.nextLine();
             if (startLogin.equals("1")) {
                 int loginResult = memberDAO.loginConfirm(userID, userPassword);
@@ -60,7 +60,10 @@ public class UserService {
             }else if(startLogin.equals("9")){ // 9.다시입력
                 return null;
             }else if(startLogin.equals("0")) { // 0.메인메뉴
-                return "main";
+                return null; // "main"을 return해서 구현 준비중
+            }else{
+                System.out.println("유효하지 않은 메뉴입니다. 다시 입력해주세요.");
+                return null;
             }
         }
         return null;
