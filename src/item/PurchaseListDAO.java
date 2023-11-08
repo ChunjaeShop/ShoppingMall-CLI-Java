@@ -153,21 +153,15 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
 
     private void updatePurchaseListAddress(int orderID, String newAddress) {
         try {
-            String sql = "UPDATE item_order SET address = ? WHERE order_id = ?";
+            String sql = "UPDATE member SET address= ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, newAddress);
-            pstmt.setInt(2, orderID);
-            int rowsUpdated = pstmt.executeUpdate();
-
-            if (rowsUpdated > 0) {
-                System.out.println("배송지가 업데이트되었습니다.");
-            } else {
-                System.out.println("배송지 업데이트 실패");
-            }
-
+            pstmt.executeUpdate();
             pstmt.close();
+            System.out.println("배송지가 수정되었습니다. 메인화면으로 돌아갑니다.");
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("잘못된 입력입니다. 메인화면으로 돌아갑니다.");
         }
     }
 
