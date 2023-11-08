@@ -94,10 +94,9 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
         // 수정하기 위해서 구매 이력 하나 조회하고 배송지 수정 가능하도록 안내
         try {
             // 주문 내역 조회
-            String sql = "SELECT item_order.order_id, item.item_name, item_order.status, item_order.address " +
-                         "FROM item_order " +
-                         "JOIN item ON item_order.item_id = item.item_id " +
-                         "WHERE item_order.user_id = ? AND item_order.order_id = ?";
+            String sql = "SELECT p.purchase_no, p.item_name, m.address " +
+                    "FROM purchase_list p, member m " +
+                    "where m.user_id = ? AND p.purchase_no = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, loggedInUserID);
             pstmt.setInt(2, orderID);
@@ -110,9 +109,9 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
                 System.out.println();
                 System.out.println("［수정하려는 주문 정보］");
                 System.out.println("-------------------------------------------------------");
-                System.out.println("Order ID: " + orderID);
-                System.out.println("Item Name: " + itemName);
-                System.out.println("Address: " + address);
+                System.out.println("주문번호: " + orderID);
+                System.out.println("상품명 : " + itemName);
+                System.out.println("배송지 : " + address);
                 System.out.println("-------------------------------------------------------");
 
                 String menuNo;
@@ -139,7 +138,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
                 } while (!menuNo.equals("2")&&!menuNo.equals("3")&&!menuNo.equals("9"));
 
             } else {
-                System.out.println("해당 주문이 없습니다.");
+                System.out.println("주문ID를 다시 확인해주세요. Main Menu로 돌아갑니다.");
                 return false;
             }
 
@@ -215,7 +214,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
                         break;
                 }
             } else {
-                System.out.println("주문 정보를 찾을 수 없습니다. 주문 ID를 확인해주세요.");
+                System.out.println("주문ID를 다시 확인해주세요. Main Menu로 돌아갑니다.");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -438,4 +437,5 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
         }
 
     }
+
 }

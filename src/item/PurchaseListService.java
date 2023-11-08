@@ -26,14 +26,12 @@ public class PurchaseListService {
 
 
     public boolean UserPurchaseList (String loggedInUserID) {  // 주문배송조회
-
-        boolean result = purchaseListDAO.printUsersPurchaseList(loggedInUserID); // boards 테이블에서 게시물 정보를 가져와서 출력하기
-        if(result) {
-            //userView
-            String menuNo;
-            boolean stat = true;
-            int selectedOrderID;
-            do {
+        boolean stat = true;
+        int selectedOrderID;
+        String menuNo;
+        do {
+            boolean result = purchaseListDAO.printUsersPurchaseList(loggedInUserID); // boards 테이블에서 게시물 정보를 가져와서 출력하기
+            if(result) {
                 System.out.println();
                 System.out.println("1.주문 수정 | 2.주문 취소 | 9.뒤로 가기");
                 System.out.print("메뉴 선택 >");
@@ -44,11 +42,10 @@ public class PurchaseListService {
                         System.out.print("수정할 주문의 Order ID를 입력하세요: ");
                         selectedOrderID = Integer.parseInt(scanner.nextLine());
                         stat = purchaseListDAO.modifyPurchsaseList(selectedOrderID, loggedInUserID); // 주소 수정 성공하면 true, 아니면 false
-                        if(stat)
+                        if (stat)
                             return false;
                         else
                             return true; // 주문 수정 성공하면 바로 true반환하여 userLoginPassMenu로 돌아가기
-
                     case "2": // 주문 취소
                         System.out.print("취소할 주문의 Order ID를 입력하세요: ");
                         selectedOrderID = Integer.parseInt(scanner.nextLine());
@@ -64,12 +61,12 @@ public class PurchaseListService {
                     default:
                         System.out.println("유효하지 않은 메뉴입니다.");
                 }
+            }else {
+                return false;
+            }
 
-            } while (stat); //
-            return true;
-        }else {
-            return false;
-        }
+        } while (stat); //
+        return true;
     }
 
     //2-5-1.구매결정(결제테이블)
