@@ -127,7 +127,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
                         case "1":
                             System.out.print("새로운 배송지 입력: ");
                             String newAddress = scanner.nextLine();
-                            updatePurchaseListAddress(orderID, newAddress);
+                            updatePurchaseListAddress(loggedInUserID, newAddress);
                             return true;
                         case "0":
                             return false;
@@ -151,11 +151,14 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
         return false;
     }
 
-    private void updatePurchaseListAddress(int orderID, String newAddress) {
+    private void updatePurchaseListAddress(String userId, String newAddress) {
         try {
-            String sql = "UPDATE member SET address= ?";
+            String sql = "UPDATE member " +
+                            "SET address = ? " +
+                            "WHERE user_id = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, newAddress);
+            pstmt.setString(2, userId);
             pstmt.executeUpdate();
             pstmt.close();
             System.out.println("배송지가 수정되었습니다. 메인화면으로 돌아갑니다.");
