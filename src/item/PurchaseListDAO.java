@@ -1,5 +1,6 @@
 package item;
 
+import Util.ConsoleTextControl;
 import user.CartlistDTO;
 import user.MemberDTO;
 import user.Purchase_listDTO;
@@ -118,14 +119,13 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
 
                 do {
                     System.out.println();
-                    System.out.println("1.배송지 수정 | 9.뒤로 가기-구현확인 | 0.처음으로");
-                    System.out.print("메뉴 선택 >");
+                    ConsoleTextControl.printColorln("1.배송지 수정 | 9.뒤로 가기-구현확인 | 0.처음으로","purple");
+                    ConsoleTextControl.printColor("메뉴 선택> ","purple");
                     menuNo = scanner.nextLine();
-
                     switch (menuNo) {
 
                         case "1":
-                            System.out.print("새로운 배송지 입력:");
+                            System.out.print("새로운 배송지 입력: ");
                             String newAddress = scanner.nextLine();
                             updatePurchaseListAddress(orderID, newAddress);
                             return true;
