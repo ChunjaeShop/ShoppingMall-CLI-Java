@@ -36,7 +36,7 @@ public class ItemService {
         System.out.println();
         System.out.println("［상품 전체 보기］");
         System.out.println("-------------------------------------------------------------------------");
-        System.out.printf("%-10s| %-10s\t| %-10s\t| %-10s\n", "category_id", "item_id", "item_name", "price");
+        System.out.printf("%s    | %-10s\t| %-10s\t| %-10s\n", "카테고리", "상품ID", "상품명", "가격");
         System.out.println("-------------------------------------------------------------------------");
 
         boolean result = itemDAO.printAllItemList(); // boards 테이블에서 게시물 정보를 가져와서 출력하기
@@ -63,7 +63,7 @@ public class ItemService {
         if (printResult) // itemId로 상세조회를 성공하면
             addCart(loggedInUserID, itemId);// 장바구니 담기 메뉴 보이기
         else    // 상세조회 실패하면
-            return false;
+            return true; // 회원 메인메뉴로 돌아가기
     return true;
     }
 

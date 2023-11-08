@@ -71,8 +71,7 @@ public class ItemDAO {
                         itemdao.getPurchaseCnt(),
                         itemdao.getContent());
             } else {
-                System.out.println("해당 상품이 없습니다.");
-                System.out.println("다시 상품을 확인해주세요");
+                System.out.println("상품 ID를 다시 확인해주세요. Main Menu로 돌아갑니다.");
                 System.out.println();
                 return false;
             }
