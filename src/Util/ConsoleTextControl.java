@@ -1,4 +1,4 @@
-package admin;
+package Util;
 
 public class ConsoleTextControl {
     // 사용할 수 있는 폰트 색상 9개
@@ -12,7 +12,7 @@ public class ConsoleTextControl {
     public static final String white     = "\u001B[37m" ;
     public static final String exit     = "\u001B[0m" ;
 
-    public static void logMassge(String massge, String color){
+    public static void printColorln(String massge, String color){
         if     ("Black".equals(color) || "black".equals(color))         color = black;
         else if("Red".equals(color) || "red".equals(color))             color = red;
         else if("Green".equals(color) || "green".equals(color))         color = green;
@@ -24,6 +24,21 @@ public class ConsoleTextControl {
 
 
         System.out.println(color+massge);
+        System.out.print("\u001B[0m");
+    }
+    public static void printColor(String massge, String color){
+        if     ("Black".equals(color) || "black".equals(color))         color = black;
+        else if("Red".equals(color) || "red".equals(color))             color = red;
+        else if("Green".equals(color) || "green".equals(color))         color = green;
+        else if("Yellow".equals(color) || "yellow".equals(color))       color = yellow;
+        else if("Blue".equals(color) || "blue".equals(color))           color = blue;
+        else if("Purple".equals(color) || "purple".equals(color))       color = purple;
+        else if("Cyan".equals(color) || "cyan".equals(color))           color = cyan;
+        else color = white;
+
+
+        System.out.print(color+massge);
+        System.out.print("\u001B[0m");
     }
     public void resetColor(){
         System.out.print("\u001B[0m");

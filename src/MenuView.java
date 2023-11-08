@@ -1,3 +1,4 @@
+import Util.ConsoleTextControl;
 import Util.ScannerUtil;
 import Util.DBUtil;
 import item.ItemService;
@@ -26,19 +27,18 @@ public class MenuView {
     }
 
     public void printDisabledMainMenu(){ // 0. 로그인 전 메인메뉴 (비활성화)
-        consoleTextControl.logMassge("┌------------------------------------------------------┐", "green");
-        consoleTextControl.logMassge("│\t\t\t\t [천재쇼핑몰 Main Menu]\t\t\t\t   │", "green");
-        consoleTextControl.logMassge("└------------------------------------------------------┘", "green");
-        consoleTextControl.resetColor();
-        consoleTextControl.logMassge("- 로그인 후 메뉴를 이용할 수 있습니다.","exit");
-        consoleTextControl.logMassge("0.상품전체보기\t\t0.상품상세조회\t\t0.주문/배송조회","exit");
-        System.out.println("0.Top10상품보기\t\t0.장바구니\t\t\t0.내정보확인");
-        System.out.println("--------------------------------------------------------");
+        consoleTextControl.printColorln("┌------------------------------------------------------┐", "green");
+        consoleTextControl.printColorln("│\t\t\t\t [천재쇼핑몰 Main Menu]\t\t\t\t   │", "green");
+        consoleTextControl.printColorln("└------------------------------------------------------┘", "green");
+        consoleTextControl.printColorln("- 로그인 후 메뉴를 이용할 수 있습니다.","exit");
+        consoleTextControl.printColorln("0.상품전체보기\t\t0.상품상세조회\t\t0.주문/배송조회","exit");
+        consoleTextControl.printColorln("0.Top10상품보기\t\t0.장바구니\t\t\t0.내정보확인","exit");
+        consoleTextControl.printColorln("--------------------------------------------------------","exit");
     }
 
     public int printLoginMenu(){ // 1. 로그인/회원가입 메뉴
 
-        consoleTextControl.logMassge("1.회원 로그인 | 2.회원가입 | 3.관리자 로그인","purple");
+        consoleTextControl.printColorln("1.회원 로그인 | 2.회원가입 | 3.관리자 로그인","purple");
         // -----아래로는 컨트롤러 옮기기
         boolean stat = true;
         int result = 0;
