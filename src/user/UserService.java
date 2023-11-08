@@ -35,7 +35,7 @@ public class UserService {
             } while (userID.isEmpty());
             System.out.print("비밀번호 입력: ");
             String userPassword = scanner.nextLine();
-            System.out.print("1.로그인 | 9.뒤로가기 : ");
+            System.out.print("1.로그인 | 9.다시입력 : ");
             String startLogin = scanner.nextLine();
             if (startLogin.equals("1")) {
                 int loginResult = memberDAO.loginConfirm(userID, userPassword);
@@ -57,8 +57,10 @@ public class UserService {
                 } else {
                     System.out.println("데이터베이스 오류");
                 }
-            }else if(startLogin.equals("9")){ // 9.뒤로가기
+            }else if(startLogin.equals("9")){ // 9.다시입력
                 return null;
+            }else if(startLogin.equals("0")) { // 0.메인메뉴
+                return "main";
             }
         }
         return null;
