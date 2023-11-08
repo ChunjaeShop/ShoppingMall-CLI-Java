@@ -104,8 +104,8 @@ public class MemberDTO {
 
     @Override
     public String toString() {
-        return "Board{" +
-                "uno=" + uno +
+        return "MemberDTO{" +
+                "uno=" + uno + '\'' +
                 "name=" + name + '\'' +
                 ", userId='" + userId + '\'' +
                 ", userPw='" + userPw + '\'' +

@@ -159,32 +159,10 @@ public class UserService {
             newMemberinfo.setPhone(newPhone);
         }
         boolean updateStat = memberDAO.updateMemberInfo(loggedInUserID, newMemberinfo);
-        if(updateStat) {// 내정보 수정 성공하면
+        if (updateStat) {// 내정보 수정 성공하면
             System.out.println("수정이 완료되었습니다.");
+        } else {
+            System.out.println("잘못된 정보입력으로 수정을 실패했습니다. Main Menu로 돌아갑니다.");
         }
-        else {
-            System.out.println("잘못된 정보입력으로 수정을 실패했습니다.");
-        }
-//        System.out.println();
-//        String choice;
-//        do {
-//            System.out.println("메뉴 : [2. 메뉴로 돌아가기] [9.내정보 확인]");
-//            System.out.print("메뉴 선택 :");
-//            choice = scanner.nextLine();
-//
-//            switch (choice) {
-//                case "2":
-//                    LoginPassMenu();
-//                    break;
-//                case "9":
-//                    MyInfo();
-//                    break;
-//                default:
-//                    System.out.println("유효하지 않은 메뉴입니다.");
-//            }
-//        }while(!menuNo.equals("2")&&!menuNo.equals("9"));
     }
-
-
-
 }
