@@ -69,7 +69,7 @@ public class UserService {
         return null;
     }
     public boolean create(){
-        // 나중에 회원가입 입력받는 메뉴 메소드로 분리하기
+        // 회원가입 입력받는 메뉴 메소드
         MemberDTO memberDTO = new MemberDTO();
         System.out.println("----------------------- 회원가입 ----------------------");
         System.out.println("［개인정보 입력］");
@@ -81,7 +81,7 @@ public class UserService {
         memberDTO.setUserPw(scanner.nextLine());
         System.out.print("주소: ");
         memberDTO.setAddress(scanner.nextLine());
-        System.out.print("성별: ");
+        System.out.print("성별(F/M): ");
         memberDTO.setGender(scanner.nextLine());
         System.out.print("키: ");
         memberDTO.setHeight(Integer.parseInt(scanner.nextLine()));
