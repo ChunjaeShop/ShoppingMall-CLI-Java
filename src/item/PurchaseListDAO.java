@@ -119,7 +119,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
 
                 do {
                     System.out.println();
-                    ConsoleTextControl.printColorln("1.배송지 수정 | 9.뒤로 가기-구현확인 | 0.처음으로","purple");
+                    ConsoleTextControl.printColorln("1.배송지 수정 | 0.메인메뉴","purple");
                     ConsoleTextControl.printColor("메뉴 선택> ","purple");
                     menuNo = scanner.nextLine();
                     switch (menuNo) {
@@ -130,16 +130,16 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
                             updatePurchaseListAddress(loggedInUserID, newAddress);
                             return true;
                         case "0":
-                            return false;
+                            return true;
 
                         default:
                             System.out.println("유효하지 않은 메뉴입니다.");
                     }
-                } while (!menuNo.equals("2")&&!menuNo.equals("3")&&!menuNo.equals("9"));
+                } while (!menuNo.equals("1") && !menuNo.equals("0"));
 
             } else {
                 System.out.println("주문ID를 다시 확인해주세요. Main Menu로 돌아갑니다.");
-                return false;
+                return true;
             }
 
             rs.close();
@@ -168,26 +168,24 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
         }
     }
 
-    public boolean cancelPurchase(int orderID, String loggedInUserID) {
+    public boolean cancelPurchase(int purchaseNo, String loggedInUserID) {
         System.out.println("[주문 취소]");
         System.out.println("-------------------------------------------------------");
 
         try {
-            String itemName = getItemNameByOrderID(orderID,loggedInUserID); // 주문 ID를 사용하여 상품명 가져오기
+            String itemName = getItemNameByPurchaseId(purchaseNo,loggedInUserID); // 주문 ID를 사용하여 상품명 가져오기
 
             if (itemName != null) {
-                System.out.println("상품명: " + itemName);
-                System.out.println("주문 ID: " + orderID);
-                System.out.println("[" + orderID + "] 주문을 취소하시겠습니까? 1.확인 | 9.뒤로가기");
+                System.out.println("[" + itemName + "] 상품 주문을 취소하시겠습니까? 1.확인 | 9.뒤로가기");
                 System.out.print("메뉴 선택 >");
 
                 String menuNo = scanner.nextLine();
                 switch (menuNo) {
                     case "1":
                         try {
-                            String sql = "DELETE FROM item_order WHERE order_id = ? AND user_id = ?";
+                            String sql = "DELETE FROM purchase_list WHERE purchase_no = ? AND user_id = ?";
                             PreparedStatement pstmt = conn.prepareStatement(sql);
-                            pstmt.setInt(1, orderID);
+                            pstmt.setInt(1, purchaseNo);
                             pstmt.setString(2, loggedInUserID);
 
                             int affectedRows = pstmt.executeUpdate();
@@ -218,17 +216,12 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
         }
         return false;
     }
-    public String getItemNameByOrderID(int orderID, String loggedInUserID) {
+    public String getItemNameByPurchaseId(int purchaseId, String loggedInUserID) {
         String itemName = null;
-
         try {
-        String sql = "SELECT item.item_name " +
-                     "FROM item_order " +
-                     "JOIN item ON item_order.item_id = item.item_id " +
-                     "WHERE item_order.order_id = ? AND item_order.user_id = ?";
+        String sql = "SELECT item_name FROM purchase_list WHERE purchase_no = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
-        pstmt.setInt(1, orderID);
-        pstmt.setString(2, loggedInUserID);
+        pstmt.setInt(1, purchaseId);
         ResultSet rs = pstmt.executeQuery();
 
         if (rs.next()) {
@@ -274,7 +267,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
     // ----insertIntoPurchaseList() 메서드 merger 메모----
     // DB purchase_list에 insert하는게 메인 코드 앞뒤로 select써서 내용 출력시킴
     // 파일 병합하면서 주문전 인적사항 확인하는 select문과 purchase_list에 insert하는 SQL문이 합쳐있는 상태-나중에 분리 필요
-    public void insertIntoPurchaseList(String loggedInUserID){
+    public boolean insertIntoPurchaseList(String loggedInUserID){
 
         // 주문 전 주소, 전화번호 확인용으로 인적사항 재확인
         System.out.println();
@@ -341,7 +334,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
                     e.printStackTrace();
                 }
                 Purchase_successful(loggedInUserID);
-                break;
+                return true;
 
             case "2":
                 //2-5-1-1-2. 주소/전화번호 변경
@@ -350,6 +343,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
             case "9":
                 break;
         }
+        return true;
     }
     //2-5-1-1-1. 확인
     //주문 최종 결제 후 화면
@@ -401,8 +395,8 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
             e.printStackTrace();
 
         }
-        //결제 전체 진행 후 회원메뉴로 이동
-        System.out.println("회원메뉴로 이동합니다");
+        //결제 전체 진행 후 회원 메인 메뉴로 이동
+        System.out.println("주문이 완료되었습니다. 장바구니로 돌아갑니다.");
     }
 
     //2-5-1-1-2. 주소/전화번호 변경
