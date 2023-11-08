@@ -338,7 +338,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
 
             case "2":
                 //2-5-1-1-2. 주소/전화번호 변경
-                Alter_PurchaseInfo();
+                Alter_PurchaseInfo(loggedInUserID);
                 break;
             case "9":
                 break;
@@ -400,7 +400,7 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
     }
 
     //2-5-1-1-2. 주소/전화번호 변경
-    public void Alter_PurchaseInfo(){
+    public void Alter_PurchaseInfo(String loggedInUserID){
         MemberDTO memberDto = new MemberDTO();
         System.out.println();
         System.out.println("[주소/전화번호 변경]");
@@ -413,11 +413,13 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
 
         try {
             String sql =
-                     "UPDATE member\n" +
-                     "SET address= ? , phone = ? ";
+                     "UPDATE member " +
+                             "SET address=? , phone=? " +
+                             "WHERE user_id=?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, memberDto.getAddress());
             pstmt.setString(2, memberDto.getPhone());
+            pstmt.setString(3, loggedInUserID);
 
             pstmt.executeUpdate();
             pstmt.close();
