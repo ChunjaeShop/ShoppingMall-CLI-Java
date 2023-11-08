@@ -113,7 +113,6 @@ public class AdminView {
                     break;
                 case "3":
                     stat = removeItem();   // 3-1-3
-                    System.out.println("3번 확인"); // test code
                     break;
                 case "9":
 
