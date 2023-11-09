@@ -36,10 +36,10 @@ public class AdminService {
 
         if (adminID.equals("host") && adminPassword.equals("1234")) {
             System.out.println("관리자로 로그인하셨습니다!");
-        } else {
-            System.out.println("관리자 로그인 실패");
             return true;
+        } else {
+            System.out.println("관리자 로그인 실패. Main Menu로 돌아갑니다.");
+            return false;
         }
-        return false;
     }
 }

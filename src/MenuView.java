@@ -46,6 +46,8 @@ public class MenuView {
                 case "1":  // 회원 로그인 메뉴
                     do {
                         loggedInUserId = userService.login();
+                        if(loggedInUserId == "main")
+                            return 2;   // 로그인 시도할 때 main으로 돌아가기 눌렀을 때
                     }while (loggedInUserId==null);
                     result = 1;
                     break;
@@ -55,8 +57,10 @@ public class MenuView {
                     break;
                 case "3": // 관리자 로그인 메뉴
                     stat = adminService.login();
-                    result = 3;
-                    break;
+                    if(stat)
+                        return 3; // 관리자 로그인 성공하면, 관리자 메뉴 나오도록 3반환
+                    else
+                        return 2; // 관리자 로그인 실패하면, 메인메뉴(비활)로 돌아가도록 2반환
                 default:
                     System.out.println("유효한 메뉴를 선택하세요. (1 ,2 ,3 중 선택하세요)");
             }
