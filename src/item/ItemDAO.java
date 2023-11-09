@@ -228,5 +228,44 @@ public class ItemDAO {
             e.printStackTrace();
         }
     }
+    public void allItemListAdmin() { // 3-1. 상품전체보기 화면
+        // 타이틀 및 컬럼명 출력
+        System.out.println();
+        System.out.println("［상품 전체 보기］");
+        System.out.println("-------------------------------------------------------------------------");
+        System.out.printf("%-5s|%-5s\t|%-10s\t|%-6s\t|%-6s\t|%-6s\t|%-20s\n", "카테고리", "상품ID", "상품명", "누적구매수", "재고", "가격", "세부정보");
+        System.out.println("-------------------------------------------------------------------------");
 
+        // boards 테이블에서 게시물 정보를 가져와서 출력하기
+        try {
+            String sql =
+                    "SELECT category_id, item_id, item_name, purchase_cnt, remain, price, item_contents " +
+                            "FROM  item ";
+            // SELECT bno, btitle, bcontent, bwriter, bdate FROM boards ORDER BY bno DESC
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                ItemDTO itemdao = new ItemDTO();
+                itemdao.setCategoryId(rs.getString("category_id"));
+                itemdao.setItemId(rs.getInt("item_id"));
+                itemdao.setItemName(rs.getString("item_name"));
+                itemdao.setPurchaseCnt(rs.getInt("purchase_cnt"));
+                itemdao.setRemain(rs.getInt("remain"));
+                itemdao.setPrice(rs.getInt("price"));
+                itemdao.setContent(rs.getString("item_contents"));
+                System.out.printf("%-7s|%-5s\t|%-10s\t|%-10s\t|%-8s\t|%-10s\t|%-20s\n",
+                        itemdao.getCategoryId(),
+                        itemdao.getItemId(),
+                        itemdao.getItemName(),
+                        itemdao.getPurchaseCnt(),
+                        itemdao.getRemain(),
+                        itemdao.getPrice(),
+                        itemdao.getContent());
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -33,8 +33,6 @@ public class UserView {
 
     public void userLoginPassMenu() {
         itemService.setLoggedInUserId(loggedInUserId);
-        System.out.println();
-
         // -----아래로는 컨트롤러 옮기기
         boolean stat = true;
         int result = 0;

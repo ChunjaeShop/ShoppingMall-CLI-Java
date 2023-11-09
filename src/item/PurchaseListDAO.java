@@ -61,33 +61,6 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
             e.printStackTrace();
 
         }
-//
-//        try {
-//            String sql = "SELECT item_order.order_id, item.item_name, item.price, " +
-//                    "item_order.order_date, item_order.status " +
-//                    "FROM item_order " +
-//                    "JOIN item ON item_order.item_id = item.item_id " +
-//                    "WHERE item_order.user_id = ?";
-//
-//            PreparedStatement pstmt = conn.prepareStatement(sql);
-//            pstmt.setString(1, loggedInUserID);
-//            ResultSet rs = pstmt.executeQuery();
-//
-//            while (rs.next()) {
-//                int orderID = rs.getInt("order_id");
-//                String itemName = rs.getString("item_name");
-//                int price = rs.getInt("price");
-//                Timestamp orderDate = rs.getTimestamp("order_date");
-//                String status = rs.getString("status");
-//                System.out.printf("%-20s%-20s%-20s%-20s%-20s\n", orderID, itemName, price, orderDate, status);
-//            }
-//            rs.close();
-//            pstmt.close();
-//            return true;
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
         return false;
     }
 
@@ -430,5 +403,78 @@ public class PurchaseListDAO { // purchase_list와 item_order가 같은 역할�
         }
 
     }
+    public boolean printAllPurchaseList() {
+        // 타이틀 및 컬럼명 출력
+        System.out.println("［주문/배송 조회］");
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.printf("%-10s| %-10s| %-10s\t\t| %-10s\t| %-20s\n", "주문ID", "고객ID","상품명", "구매금액", "주문날짜");
+        System.out.println("-----------------------------------------------------------------------");
+        String sql =
+                "SELECT purchase_no, user_id, item_name, price, order_date FROM purchase_list";
 
+        try {
+            //결제테이블의 number, 상품명, 가격, 주문날짜, member테이블의 주소, 결제테이블의 전화번호 출력
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            if(!rs.next()) {
+                System.out.println("* 주문 내역이 없습니다.");
+                return true;
+            }
+            while (rs.next()) {
+
+                Purchase_listDTO purchaseListDTO = new Purchase_listDTO();
+                System.out.println(rs.getString("user_id"));
+                purchaseListDTO.setPurchaseNo(rs.getInt("purchase_no"));
+                purchaseListDTO.setUserId(rs.getString("user_id"));
+                purchaseListDTO.setItemName(rs.getString("item_name"));
+                purchaseListDTO.setPrice(rs.getInt("price"));
+                purchaseListDTO.setPurchaseDate(rs.getString("order_date"));
+                System.out.printf("%-10s| %-10s| %-10s\t| %-10s\t| %-20s\n",
+                        purchaseListDTO.getPurchaseNo(),
+                        purchaseListDTO.getUserId(),
+                        purchaseListDTO.getItemName(),
+                        purchaseListDTO.getPrice(),
+                        purchaseListDTO.getPurchaseDate());
+            }
+            rs.close();
+            pstmt.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("주문 확인 중 오류가 발생했습니다. Main Menu로 돌아갑니다.");
+            return true;
+        }
+    }
+    public boolean getPurchaseInfoByPurchaseNo(int purchaseNo){
+        String itemName = null;
+        try {
+            String sql =
+                    "SELECT * FROM purchase_list WHERE purchase_no = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, purchaseNo);
+            ResultSet rs = pstmt.executeQuery();
+            if(rs == null)
+                return false;
+            else
+                return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean deletePurchaseInfo(int purchaseNo) {
+        try {
+            String sql =
+                    "DELETE FROM purchase_list WHERE purchase_no = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, purchaseNo);
+            pstmt.executeQuery();
+            pstmt.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

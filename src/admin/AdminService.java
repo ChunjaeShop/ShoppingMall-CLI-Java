@@ -1,5 +1,6 @@
 package admin;
 
+import Util.ConsoleTextControl;
 import user.MemberDAO;
 
 import java.sql.Connection;
@@ -35,7 +36,7 @@ public class AdminService {
 
 
         if (adminID.equals("host") && adminPassword.equals("1234")) {
-            System.out.println("관리자로 로그인하셨습니다!");
+            ConsoleTextControl.printColorln("\n*관리자님 환영합니다!","green");
             return true;
         } else {
             System.out.println("관리자 로그인 실패. Main Menu로 돌아갑니다.");

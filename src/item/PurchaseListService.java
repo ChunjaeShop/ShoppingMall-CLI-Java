@@ -1,10 +1,16 @@
 package item;
 
+import Util.ConsoleTextControl;
 import Util.ScannerUtil;
 import user.MemberDAO;
+import user.MemberDTO;
+import user.Purchase_listDTO;
 
 import javax.swing.*;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 // 유저 로그인, 회원가입, 유저가 볼 수 있는 메뉴의 기능들
@@ -100,5 +106,36 @@ public class PurchaseListService {
                     System.out.println("유효하지 않은 메뉴입니다.");
             }
         }
+    }
+
+    public boolean removePurchaseList(){
+        System.out.println("-------------------------------------------------------");
+        System.out.print("삭제할 주문 ID : ");
+        int purchaseNo = scanner.nextInt();
+        scanner.nextLine();
+        boolean isExistInfo = purchaseListDAO.getPurchaseInfoByPurchaseNo(purchaseNo);
+        if (isExistInfo) {
+            ConsoleTextControl.printColorln( "주문 ID[" + purchaseNo + "]을/를 삭제하시겠습니까?  1.확인 | 9.뒤로가기","purple");
+            ConsoleTextControl.printColor("메뉴 선택 >","purple");
+            String deleteMenuNo = scanner.nextLine();
+            if (deleteMenuNo.equals("1")) {
+                try {
+                    if (purchaseListDAO.deletePurchaseInfo(purchaseNo)) {
+                        System.out.println("주문이 정상적으로 삭제되었습니다. --로 돌아갑니다.");
+                        return true;
+                    } else
+                        System.out.println("주문 삭제 중 오류가 발생했습니다. --로 돌아갑니다.");
+                } catch (Exception e) {
+                    System.out.println("주문 삭제 중 오류가 발생했습니다. --로 돌아갑니다.");
+                }
+            } else if (deleteMenuNo.equals("9")) {
+                System.out.println("뒤로가기 입력확인");
+                return true;
+            }
+        } else { // itemName이 없어서 null인 경우
+            System.out.println("해당 상품이 없습니다. 상품ID를 다시 확인해주세요.");
+            return true;
+        }
+        return false;
     }
 }
