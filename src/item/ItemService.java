@@ -36,7 +36,7 @@ public class ItemService {
         System.out.println();
         System.out.println("［상품 전체 보기］");
         System.out.println("--------------------------------------------------------");
-        System.out.printf("%s    | %-10s\t| %-10s\t| %-10s\n", "카테고리", "상품ID", "상품명", "가격");
+        System.out.printf("%-6s | %-10s\t| %-10s\t| %-10s\n", "카테고리", "상품ID", "상품명", "가격");
         System.out.println("--------------------------------------------------------");
 
         boolean result = itemDAO.printAllItemList(); // boards 테이블에서 게시물 정보를 가져와서 출력하기
@@ -141,7 +141,7 @@ public class ItemService {
                     stat = purchaseListService.purchaseBefore(loggedInUserId); // 구매 결정하기 전에 장바구니 금액합계 보여주고 결제시키는 것까지 들어있음
                     break;
                 case "2":
-                    stat = cartListDAO.deleteFromCartlist();
+                    stat = cartListDAO.deleteFromCartlist(loggedInUserId);
                     break;
                 case "9":
                     return true; // 반복문 탈출하여 userLoginPassMenu로 복귀

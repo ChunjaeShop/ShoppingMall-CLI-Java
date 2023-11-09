@@ -53,7 +53,7 @@ public class CartListDAO { // purchase_list와 item_order가 같은 역할인 �
     }
 
     //2-5-2. 장바구니에서 삭제
-    public boolean deleteFromCartlist () {
+    public boolean deleteFromCartlist (String loggedInUserId) {
 
         int cartId = -1;
         while (cartId == -1) {
@@ -76,10 +76,11 @@ public class CartListDAO { // purchase_list와 item_order가 같은 역할인 �
 
                 try {
                     String sql = "DELETE FROM cartlist " +
-                                 "WHERE cart_id= ? ";
+                                 "WHERE cart_id= ? AND user_id=?";
 
                     PreparedStatement pstmt = conn.prepareStatement(sql);
                     pstmt.setInt(1, cartId);
+                    pstmt.setString(2, loggedInUserId);
                     ResultSet rs = pstmt.executeQuery();
                     rs.close();
                     pstmt.close();
