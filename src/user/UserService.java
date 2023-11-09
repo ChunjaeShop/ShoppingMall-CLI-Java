@@ -1,5 +1,6 @@
 package user;
 
+import Util.ConsoleTextControl;
 import item.ItemDAO;
 
 import java.sql.Connection;
@@ -35,7 +36,7 @@ public class UserService {
             } while (userID.isEmpty());
             System.out.print("비밀번호 입력: ");
             String userPassword = scanner.nextLine();
-            System.out.print("1.로그인 | 9.다시입력: ");
+            System.out.print("1.로그인 | 9.다시입력 | 0.메인메뉴: ");
             String startLogin = scanner.nextLine();
             if (startLogin.equals("1")) {
                 int loginResult = memberDAO.loginConfirm(userID, userPassword);
@@ -48,19 +49,26 @@ public class UserService {
                 } else if (loginResult == -1) { // 아이디 없음
                     System.out.println("아이디가 없습니다. 회원가입을 하시겠습니까?(Y/N)");
                     String retry = scanner.nextLine();
-                    if (retry.equalsIgnoreCase("Y")) { // 회원가입을 원할 경우
-                        create(); // User.create()실행
-                        break;
-                    } else { // 회원가입을 원하지 않는다면 메인 메뉴로 돌아가기
-                        return null;
-                    }
+                    do {
+                        if (retry.equalsIgnoreCase("Y")) { // 회원가입을 원할 경우
+                            create(); // User.create()실행
+                            break;
+                        } else if (retry.equalsIgnoreCase("N")) { // 회원가입을 원하지 않을 경우 다시 로그인
+                            System.out.println("다시 로그인해주세요.");
+                            return null;
+                        } else { // 다른메뉴를 입력하면
+                            System.out.println("유효하지 않은 메뉴입니다.");
+                            System.out.println("회원가입을 하시겠습니까?(Y/N)");
+                            retry = scanner.nextLine();
+                        }
+                    }while(!retry.equals("Y") || !retry.equals("N"));
                 } else {
                     System.out.println("데이터베이스 오류");
                 }
             }else if(startLogin.equals("9")){ // 9.다시입력
                 return null;
             }else if(startLogin.equals("0")) { // 0.메인메뉴
-                return null; // "main"을 return해서 구현 준비중
+                return "main"; // "main"을 return하면 메인메뉴 돌아가도록
             }else{
                 System.out.println("유효하지 않은 메뉴입니다. 다시 입력해주세요.");
                 return null;
