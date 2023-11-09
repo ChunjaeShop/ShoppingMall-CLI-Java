@@ -29,6 +29,6 @@ public class ShopMain { // main 메소드 실행하는 클래스
                     break;
             }
         }while(viewMenu == 2); // 회원가입후 메인메뉴(비활)와 로그인 메뉴 다시 보이기
-        System.out.println("쇼핑몰 프로그램을 종료합니다. 이용해 주셔서 감사합니다:)");
+        ConsoleTextControl.printColorln("---------- 천재쇼핑몰을 이용해 주셔서 감사합니다:) ----------","green");
     }
 }

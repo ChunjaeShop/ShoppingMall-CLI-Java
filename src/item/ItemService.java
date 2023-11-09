@@ -92,8 +92,7 @@ public class ItemService {
     public boolean itemRanking() { // TOP10 출력이 끝나면 1.상세조회 메소드 실행 후 동작 또는 2.바로 loginPassMenu로 돌아가기
         System.out.println();
         System.out.println("-----------------------------［상품순위］----------------------------------");
-        System.out.println("-------------------------------------------------------------------------");
-        System.out.printf("%-10s| %-10s\t| %-10s\t| %-10s\n", "순위", "상품이름", "누적판매량", "가격");
+        System.out.printf("%-4s| %-10s\t| %-10s\t| %-10s\n", "순위", "상품이름", "누적판매량", "가격");
         itemDAO.printItemRanking();
 
         String menuNo;

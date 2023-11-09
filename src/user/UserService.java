@@ -81,7 +81,7 @@ public class UserService {
         memberDTO.setUserPw(scanner.nextLine());
         System.out.print("주소: ");
         memberDTO.setAddress(scanner.nextLine());
-        System.out.print("성별(F/M): ");
+        System.out.print("성별: ");
         memberDTO.setGender(scanner.nextLine());
         System.out.print("키: ");
         memberDTO.setHeight(Integer.parseInt(scanner.nextLine()));

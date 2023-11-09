@@ -209,11 +209,19 @@ public class ItemDAO {
                 itemdao.setItemName(rs.getString("item_name"));
                 itemdao.setPurchaseCnt(rs.getInt("purchase_cnt"));
                 itemdao.setPrice(rs.getInt("price"));
-                System.out.printf("%-10s| %-10s\t| %-10s\t| %-10s\n",
-                        rank,
-                        itemdao.getItemName(),
-                        itemdao.getPurchaseCnt(),
-                        itemdao.getPrice());
+                if(itemdao.getItemName().length()<4){
+                    System.out.printf("%-5s| %-13s\t| %-10s\t| %-10s\n",
+                            rank,
+                            itemdao.getItemName(),
+                            itemdao.getPurchaseCnt(),
+                            itemdao.getPrice());
+                } else {
+                    System.out.printf("%-5s| %-10s\t| %-10s\t| %-10s\n",
+                            rank,
+                            itemdao.getItemName(),
+                            itemdao.getPurchaseCnt(),
+                            itemdao.getPrice());
+                }
                 rank++; // 다음 상품의 순위 증가
             }
             rs.close();

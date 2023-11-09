@@ -37,12 +37,6 @@ public class AdminView {
                 case "2":
                     stat = orderListMenu(); // 3-2 주문내역조회(작업중)
                     break;
-                case "4":
-                    //itemRank();
-                    break;
-                case "9":
-                    //MyInfo();
-                    break;
                 default:
                     System.out.println("유효하지 않은 메뉴입니다.");
 
