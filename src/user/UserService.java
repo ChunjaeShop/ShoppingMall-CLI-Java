@@ -42,7 +42,6 @@ public class UserService {
                 int loginResult = memberDAO.loginConfirm(userID, userPassword);
             if (loginResult == 1) {             // 로그인 성공
                     loggedInUserID = userID;    // Set the logged-in user ID
-                    System.out.println(loggedInUserID + "님 환영합니다!");
                     return loggedInUserID; // 로그인 성공하면 String으로 로그인한 ID 반환
                 } else if (loginResult == 0) { // 비밀번호 불일치
                     System.out.println("비밀번호 불일치 id랑 비밀번호를 다시 입력하세요");
@@ -89,7 +88,7 @@ public class UserService {
         memberDTO.setUserPw(scanner.nextLine());
         System.out.print("주소: ");
         memberDTO.setAddress(scanner.nextLine());
-        System.out.print("성별: ");
+        System.out.print("성별(M/F): ");
         memberDTO.setGender(scanner.nextLine());
         System.out.print("키: ");
         memberDTO.setHeight(Integer.parseInt(scanner.nextLine()));
