@@ -1,3 +1,4 @@
+import Util.ConsoleTextControl;
 import item.Item;
 import item.ItemDAO;
 import item.ItemDTO;
@@ -51,7 +52,7 @@ public class AdminView {
         System.out.println();
         System.out.println("［상품 전체 보기］");
         System.out.println("-------------------------------------------------------------------------");
-        System.out.printf("%-10s|%-10s\t|%-10s\t|%-10s\t|%-10s\t|%-10s\t|%-20s\n", "category_id", "item_id", "item_name", "purchase_cnt", "remain", "price", "item_contents");
+        System.out.printf("%-5s|%-5s\t|%-10s\t|%-6s\t|%-6s\t|%-6s\t|%-20s\n", "카테고리", "상품ID", "상품명", "누적구매수", "재고", "가격", "세부정보");
         System.out.println("-------------------------------------------------------------------------");
 
         // boards 테이블에서 게시물 정보를 가져와서 출력하기
@@ -71,7 +72,7 @@ public class AdminView {
                 itemdao.setRemain(rs.getInt("remain"));
                 itemdao.setPrice(rs.getInt("price"));
                 itemdao.setContent(rs.getString("item_contents"));
-                System.out.printf("%-10s|%-10s\t|%-10s\t|%-10s\t|%-10s\t|%-10s\t|%-20s\n",
+                System.out.printf("%-7s|%-5s\t|%-10s\t|%-10s\t|%-8s\t|%-10s\t|%-20s\n",
                         itemdao.getCategoryId(),
                         itemdao.getItemId(),
                         itemdao.getItemName(),
@@ -93,9 +94,8 @@ public class AdminView {
         do {
             allItemList();
             System.out.println("-------------------------------------------------------");
-            System.out.println("1.상품등록 | 2.상품정보수정 | 3.상품삭제 | 9.뒤로가기");
-            System.out.println("-------------------------------------------------------");
-            System.out.print("메뉴 선택 >");
+            ConsoleTextControl.printColorln("1.상품등록 | 2.상품정보수정 | 3.상품삭제 | 9.뒤로가기","purple");
+            ConsoleTextControl.printColor("메뉴 선택> ","purple");
             menuNo = scanner.nextLine();
 
             switch (menuNo) {
@@ -123,17 +123,17 @@ public class AdminView {
         item.setItemName(scanner.nextLine());
         System.out.print("카테고리: ");
         item.setCategoryId(scanner.nextLine());
-        System.out.print("사이즈: ");
-        item.setSize(scanner.nextLine());
         System.out.print("가격: ");
         item.setPrice(scanner.nextInt());
         System.out.print("재고: ");
         item.setRemain(scanner.nextInt());
         scanner.nextLine();
+        System.out.print("상품설명: ");
+        item.setContent(scanner.nextLine());
 
         System.out.println("-------------------------------------------------------");
-        System.out.println("1.상품등록완료 | 9.뒤로가기");
-        System.out.print("메뉴 선택 >");
+        ConsoleTextControl.printColorln("1.상품등록완료 | 9.뒤로가기","purple");
+        ConsoleTextControl.printColor("메뉴 선택> ","purple");
         String subMenuNo = scanner.nextLine();
         if (subMenuNo.equals("1")) {
             try {
@@ -151,23 +151,23 @@ public class AdminView {
     }
 
     public boolean editItemMenu() { // 3-1-2 상품정보수정 메뉴 // 작업중
+        ItemDAO itemDAO = new ItemDAO();
         System.out.println("-------------------------------------------------------");
         System.out.print("수정할 상품 ID : ");
         int itemId = scanner.nextInt();
         scanner.nextLine();
-        System.out.println("1.재고수정 | 2.정보전체수정 | 9.뒤로가기");
-        System.out.print("메뉴 선택: ");
+        ConsoleTextControl.printColorln("1.재고수정 | 2.정보전체수정 | 9.뒤로가기","purple");
+        ConsoleTextControl.printColor("메뉴 선택> ","purple");
         String subMenuNo = scanner.nextLine();
         if (subMenuNo.equals("1")) {    // 3-1-2-1 재고수정
-            System.out.print("["+itemId+"] 수정할 재고 : ");
+            System.out.print("["+itemDAO.getItemNameUsingItemId(itemId)+"] 수정할 재고 : ");
             int newRemain = scanner.nextInt();
             try {
-                ItemDAO itemDAO = new ItemDAO();
                 itemDAO.setConnection(conn);
                 if(itemDAO.updateItemRemain(itemId, newRemain))
                     return true;
                 else
-                    System.out.println("상품등록실패");
+                    System.out.println("상품 등록을 실패했습니다. 다시 시도해주세요.");
             }catch (Exception e){
 
             }
@@ -189,8 +189,6 @@ public class AdminView {
         System.out.println("-----------------------[ 상품 정보 수정 ]----------------------");
         System.out.print("상품명: ");
         item.setItemName(scanner.nextLine());
-        System.out.print("사이즈: ");
-        item.setSize(scanner.nextLine());
         System.out.print("가격: ");
         item.setPrice(scanner.nextInt());
         System.out.print("재고: ");
@@ -207,9 +205,10 @@ public class AdminView {
                 ItemDAO itemDAO = new ItemDAO();
                 itemDAO.setConnection(conn);
                 if(itemDAO.updateItemInfo(item)) {
-                    System.out.println("상품전체수정성공AdminMain");
+                    System.out.println("상품이 정상적으로 수정되었습니다. 상품 리스트를 확인해주세요.");
                 }
-                else System.out.println("상품전체수정실패AdminMain");
+                else
+                    System.out.println("상품 수정을 실패했습니다. 다시 시도해주세요.");
             }catch (Exception e){
 
             }
@@ -266,7 +265,6 @@ public class AdminView {
                 itemdao.setCategoryId(rs.getString("category_id"));
                 itemdao.setItemId(rs.getInt("item_id"));
                 itemdao.setItemName(rs.getString("item_name"));
-                itemdao.setSize(rs.getString("size"));
                 itemdao.setPurchaseCnt(rs.getInt("purchase_cnt"));
                 itemdao.setRemain(rs.getInt("remain"));
                 itemdao.setPrice(rs.getInt("price"));
@@ -275,7 +273,6 @@ public class AdminView {
                         itemdao.getCategoryId(),
                         itemdao.getItemId(),
                         itemdao.getItemName(),
-                        itemdao.getSize(),
                         itemdao.getPurchaseCnt(),
                         itemdao.getRemain(),
                         itemdao.getPrice(),

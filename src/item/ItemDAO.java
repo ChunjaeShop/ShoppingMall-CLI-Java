@@ -24,16 +24,16 @@ public class ItemDAO {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                ItemDTO itemdao = new ItemDTO();
-                itemdao.setCategoryId(rs.getString("category_id"));
-                itemdao.setItemId(rs.getInt("item_id"));
-                itemdao.setItemName(rs.getString("item_name"));
-                itemdao.setPrice(rs.getInt("price"));
+                ItemDTO itemDTO = new ItemDTO();
+                itemDTO.setCategoryId(rs.getString("category_id"));
+                itemDTO.setItemId(rs.getInt("item_id"));
+                itemDTO.setItemName(rs.getString("item_name"));
+                itemDTO.setPrice(rs.getInt("price"));
                 System.out.printf("%-10s| %-10s\t| %-10s\t| %-10s\n",
-                        itemdao.getCategoryId(),
-                        itemdao.getItemId(),
-                        itemdao.getItemName(),
-                        itemdao.getPrice()); // 출력하는 메서드 분리 예정
+                        itemDTO.getCategoryId(),
+                        itemDTO.getItemId(),
+                        itemDTO.getItemName(),
+                        itemDTO.getPrice()); // 출력하는 메서드 분리 예정
 
             }
             rs.close();
@@ -90,16 +90,15 @@ public class ItemDAO {
 
         try {
             String sql =
-                    "INSERT INTO item (category_id, item_name, size, purchase_cnt, remain, price, item_contents) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    "INSERT INTO item (category_id, item_name, purchase_cnt, remain, price, item_contents) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, item.getCategoryId());
             pstmt.setString(2, item.getItemName());
-            pstmt.setString(3, item.getSize());
-            pstmt.setInt(4, 0);
-            pstmt.setInt(5, item.getRemain());
-            pstmt.setInt(6, item.getPrice());
-            pstmt.setString(7, item.getContent());
+            pstmt.setInt(3, 0);
+            pstmt.setInt(4, item.getRemain());
+            pstmt.setInt(5, item.getPrice());
+            pstmt.setString(6, item.getContent());
             pstmt.executeUpdate();
             pstmt.close();
             System.out.println("----------------상품등록 완료------------------");
@@ -124,12 +123,12 @@ public class ItemDAO {
             pstmt.setInt(2, itemId);
             pstmt.executeUpdate();
             pstmt.close();
-            System.out.println("상품수정완료");
+            System.out.println("상품 재고가 정상적으로 수정되었습니다. 상품 리스트를 확인해주세요.");
             return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("상품수정실패");
+        System.out.println("상품 재고 수정을 실패했습니다. 다시 시도해주세요.");
         return false;
     }
 
@@ -138,17 +137,16 @@ public class ItemDAO {
 
             String sql =
                     "UPDATE item SET item_name = ?, " +
-                            "size = ?, remain = ?, " +
+                            "remain = ?, " +
                             "price = ?, item_contents = ? " +
                             "WHERE item_id=?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, item.getItemName());
-            pstmt.setString(2, item.getSize());
-            pstmt.setInt(3, item.getRemain());
-            pstmt.setInt(4, item.getPrice());
-            pstmt.setString(5, item.getContent());
-            pstmt.setInt(6, item.getItemId());
+            pstmt.setInt(2, item.getRemain());
+            pstmt.setInt(3, item.getPrice());
+            pstmt.setString(4, item.getContent());
+            pstmt.setInt(5, item.getItemId());
             pstmt.executeUpdate();
             pstmt.close();
             System.out.println("상품전체수정완료");
