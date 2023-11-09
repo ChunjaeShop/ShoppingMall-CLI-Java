@@ -28,7 +28,10 @@ public class CartListDAO { // purchase_list와 item_order가 같은 역할인 �
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, loggedInUserId);
             ResultSet rs = pstmt.executeQuery();
-
+            if(!rs.next()) {
+                System.out.println("* 장바구니에 담긴 상품이 없습니다.");
+                return;
+            }
             while (rs.next()) {
                 CartlistDTO cartlistDTO = new CartlistDTO();
 

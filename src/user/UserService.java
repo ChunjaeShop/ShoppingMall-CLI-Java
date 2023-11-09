@@ -26,7 +26,7 @@ public class UserService {
         while (!passwordMatched) {
 
             do {
-                System.out.println("=========회원로그인========");
+                System.out.println("=======================회원로그인=========================");
                 System.out.print("아이디 입력: ");
                 userID = scanner.nextLine();
 
