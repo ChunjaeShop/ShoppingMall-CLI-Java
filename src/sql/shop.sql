@@ -1,6 +1,9 @@
-create database team_prj;
-
+--create database team_prj;
 use team_prj;
+
+drop table if exists item;
+drop table if exists member;
+drop table if exists categories;
 
 CREATE TABLE member (
     u_no INT PRIMARY KEY AUTO_INCREMENT,
@@ -14,7 +17,9 @@ CREATE TABLE member (
     birth VARCHAR(30),
     UNIQUE KEY unique_name (user_id)
 );
-
+INSERT INTO member (user_id, name, user_pw, address, gender, height_cm, phone, birth)
+VALUES
+('test', '최지혜', '1234', '서울', 'F', 173,'01086473956', '19960213');
 INSERT INTO member (user_id, name, user_pw, address, gender, height_cm, phone, birth)
 VALUES
 ('wisdomcho2', '최지혜', '1212', '서울', 'F', 173,'01086473956', '19960213'),
@@ -102,7 +107,7 @@ CREATE TABLE cartlist (
     item_name VARCHAR(30) NOT NULL,
     price INT NOT NULL,
     phone VARCHAR(30),
-    CONSTRAINT itme_name_fk FOREIGN KEY (item_name) REFERENCES item(item_name),
+    CONSTRAINT itme_name_fk FOREIGN KEY (item_name) REFERENCES item(item_name) on delete cascade,
     CONSTRAINT user_id_fk FOREIGN KEY (user_id) REFERENCES member(user_id)
 );
 
@@ -119,38 +124,28 @@ CREATE TABLE purchase_list (
 INSERT INTO purchase_list (user_id, item_name, price, phone)
 VALUES
 ('User16', '후드티', 85000, '01012345678'),
-('Customer17', '조끼', 45000, '01023456789'),
 ('Client18', '청바지', 125000, '01034567890'),
 ('Member19', '런닝화', 85000, '01045678901'),
 ('User20', '맨투맨', 75000, '01056789012'),
 ('Customer21', '워킹화', 95000, '01067890123'),
-('Client22', '로퍼', 65000, '01078901234'),
 ('Member23', '실내화', 25000, '01089012345'),
 ('User24', '카고바지', 70000, '01090123456'),
-('Customer25', '부츠', 75000, '01001234567'),
 ('User16', '후드티', 85000, '01012345678'),
-('Customer17', '조끼', 45000, '01023456789'),
 ('Client18', '청바지', 125000, '01034567890'),
 ('Member19', '런닝화', 85000, '01045678901'),
 ('User20', '맨투맨', 75000, '01056789012'),
 ('Customer21', '워킹화', 95000, '01067890123'),
-('Client22', '로퍼', 65000, '01078901234'),
 ('Member23', '실내화', 25000, '01089012345'),
 ('User24', '카고바지', 70000, '01090123456'),
-('Customer25', '부츠', 75000, '01001234567'),
 ('User16', '후드티', 85000, '01012345678'),
-('Customer17', '조끼', 45000, '01023456789'),
 ('Client18', '청바지', 125000, '01034567890'),
 ('Member19', '런닝화', 85000, '01045678901'),
 ('User20', '맨투맨', 75000, '01056789012'),
 ('Customer21', '워킹화', 95000, '01067890123'),
-('Client22', '로퍼', 65000, '01078901234'),
 ('Member23', '실내화', 25000, '01089012345'),
 ('User24', '카고바지', 70000, '01090123456'),
-('Customer25', '부츠', 75000, '01001234567'),
 ('wisdomcho2', '후드티', 85000, '01022223333'),
 ('wisdomcho2', '맨투맨', 75000, '01022223333'),
 ('wisdomcho2', '청바지', 125000, '01022223333'),
 ('wisdomcho2', '운동화', 85000, '01022223333'),
-('wisdomcho2', '조끼', 45000, '01022223333'),
 ('wisdomcho2', '슬리퍼', 35000, '01022223333');
