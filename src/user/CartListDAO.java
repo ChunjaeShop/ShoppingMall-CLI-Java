@@ -17,22 +17,25 @@ public class CartListDAO { // purchase_list와 item_order가 같은 역할인 �
         this.conn = con;
     }
 
-    public void printCartList(String loggedInUserId){
-        // cartlist 테이블에서 가져와서 출력해줌
+    public void printCartList(String loggedInUserId) {
         try {
-            String sql =
-                    "SELECT cart_id, item_name, price FROM cartlist a, member m " +
+            String sql = "SELECT cart_id, item_name, price FROM cartlist a, member m " +
                     "WHERE a.user_id=m.user_id and a.user_id=?";
 
-            // SELECT cart_id, item_name, price From cartlist;
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, loggedInUserId);
             ResultSet rs = pstmt.executeQuery();
-            if(!rs.next()) {
+
+            // 결과 세트에 레코드가 있는지 확인
+            if (!rs.next()) {
                 System.out.println("* 장바구니에 담긴 상품이 없습니다.");
+                rs.close();
+                pstmt.close();
                 return;
             }
-            while (rs.next()) {
+
+            // 결과 세트에 레코드가 있으면 처리
+            do {
                 CartlistDTO cartlistDTO = new CartlistDTO();
 
                 cartlistDTO.setCartId(rs.getInt("cart_id"));
@@ -43,12 +46,12 @@ public class CartListDAO { // purchase_list와 item_order가 같은 역할인 �
                         cartlistDTO.getCartId(),
                         cartlistDTO.getItemName(),
                         cartlistDTO.getPrice());
-            }
+            } while (rs.next());
+
             rs.close();
             pstmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
-
         }
     }
 
