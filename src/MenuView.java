@@ -26,10 +26,23 @@ public class MenuView {
     }
 
     public void printDisabledMainMenu(){ // 0. 로그인 전 메인메뉴 (비활성화)
+        ConsoleTextControl.printColorln("      _____ _                 _", "green");
+        ConsoleTextControl.printColorln("     / ____| |               (_) ", "green");
+        ConsoleTextControl.printColorln("    | |    | |__  _   _ _ __  _  __ _  ___  ", "green");
+        ConsoleTextControl.printColorln("    | |    | '_ \\| | | | '_ \\| |/ _` |/ _ \\", "green");
+        ConsoleTextControl.printColorln("    | |____| | | | |_| | | | | | (_| |  __/", "green");
+        ConsoleTextControl.printColorln("     \\_____|_| |_|\\__,_|_| |_| |\\__,_|\\___|", "green");
+        ConsoleTextControl.printColorln("     / ____| |              _/ |   (_)  ", "green");
+        ConsoleTextControl.printColorln("    | (___ | |__   ___  _ _|__/ __  _ _ __   __ _", "green");
+        ConsoleTextControl.printColorln("     \\___ \\| '_ \\ / _ \\| '_ \\| '_ \\| | '_ \\ / _` |", "green");
+        ConsoleTextControl.printColorln("     ____) | | | | (_) | |_) | |_) | | | | | (_| |", "green");
+        ConsoleTextControl.printColorln("    |_____/|_| |_|\\___/| .__/| .__/|_|_| |_|\\__, |", "green");
+        ConsoleTextControl.printColorln("                       | |   | |             __/ |", "green");
+        ConsoleTextControl.printColorln("                       |_|   |_|            |___/ ", "green");
         ConsoleTextControl.printColorln("┌------------------------------------------------------┐", "green");
         ConsoleTextControl.printColorln("│\t\t\t\t [천재쇼핑몰 Main Menu]\t\t\t\t   │", "green");
         ConsoleTextControl.printColorln("└------------------------------------------------------┘", "green");
-        ConsoleTextControl.printColorln("- 로그인 후 메뉴를 이용할 수 있습니다.","exit");
+        ConsoleTextControl.printColorln("         - 로그인 후 메뉴를 이용할 수 있습니다 - ","exit");
         ConsoleTextControl.printColorln("0.상품전체보기\t\t0.상품상세조회\t\t0.주문/배송조회","exit");
         ConsoleTextControl.printColorln("0.Top10상품보기\t\t0.장바구니\t\t\t0.내정보확인","exit");
         ConsoleTextControl.printColorln("--------------------------------------------------------","exit");

@@ -40,6 +40,7 @@ public class UserView {
             consoleTextControl.printColorln("┌------------------------------------------------------┐", "green");
             consoleTextControl.printColorln("│\t\t\t\t [천재쇼핑몰 Main Menu]\t\t\t\t   │", "green");
             consoleTextControl.printColorln("└------------------------------------------------------┘", "green");
+            ConsoleTextControl.printColorln("*"+loggedInUserId + "님 환영합니다!", "green");
             System.out.println("1.상품전체보기\t\t2.상품상세조회\t\t3.주문/배송조회");
             System.out.println("4.Top10상품보기\t\t5.장바구니\t\t\t9.내정보확인");
             System.out.println("0.종료");

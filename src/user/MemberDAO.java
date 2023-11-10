@@ -45,8 +45,7 @@ public class MemberDAO {
             pstmt.setString(8, memberDTO.getBirth());
             pstmt.executeUpdate();
             pstmt.close();
-            System.out.println("----------------회원가입 완료------------------");
-            System.out.println("----------------로그인하세요------------------");
+            System.out.println("----회원가입이 완료되었습니다. 로그인 해주세요.----");
             return true;
         } catch (Exception e) {
             System.out.println("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");

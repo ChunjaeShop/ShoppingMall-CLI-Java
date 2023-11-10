@@ -35,9 +35,9 @@ public class ItemService {
         // 타이틀 및 컬럼명 출력
         System.out.println();
         System.out.println("［상품 전체 보기］");
-        System.out.println("-------------------------------------------------------------------------");
-        System.out.printf("%s    | %-10s\t| %-10s\t| %-10s\n", "카테고리", "상품ID", "상품명", "가격");
-        System.out.println("-------------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------");
+        System.out.printf("%-6s | %-10s\t| %-10s\t| %-10s\n", "카테고리", "상품ID", "상품명", "가격");
+        System.out.println("--------------------------------------------------------");
 
         boolean result = itemDAO.printAllItemList(); // boards 테이블에서 게시물 정보를 가져와서 출력하기
         if(result)
@@ -70,7 +70,7 @@ public class ItemService {
     public void addCart(String loggedInUserID, int itemId){ // 장바구니 담기
         boolean stat = true;
         do {
-            System.out.println("-------------------------------------------------------");
+            System.out.println("------------------------------------------------------------------------------------------------------------------");
             System.out.println("1.장바구니담기 | 9.뒤로가기");
             // -----아래로는 컨트롤러 옮기기
             switch (scannerUtil.scanMenu()) {
@@ -91,7 +91,7 @@ public class ItemService {
     // 4. TOP10 확인
     public boolean itemRanking() { // TOP10 출력이 끝나면 1.상세조회 메소드 실행 후 동작 또는 2.바로 loginPassMenu로 돌아가기
         System.out.println();
-        System.out.println("-----------------------------［상품순위］----------------------------------");
+        System.out.println("--------------------［상품순위］-------------------------");
         System.out.printf("%-4s| %-10s\t| %-10s\t| %-10s\n", "순위", "상품이름", "누적판매량", "가격");
         itemDAO.printItemRanking();
 
@@ -125,13 +125,13 @@ public class ItemService {
             // 장바구니 -- no, 상품명, 가격 출력
             System.out.println();
             System.out.println("［장바구니］");
-            System.out.println("-------------------------------------------------------------------------");
+            System.out.println("-------------------------------------------------------");
             System.out.printf("%-10s| %-10s\t| %-10s\n", "no", "상품명", "가격");
-            System.out.println("-------------------------------------------------------------------------");
+            System.out.println("-------------------------------------------------------");
             cartListDAO.printCartList(loggedInUserId); // cartlist 테이블에서 가져와서 장바구니 전체 리스트 출력해줌
 
 
-            System.out.println("-------------------------------------------------------------------------");
+            System.out.println("-------------------------------------------------------");
             System.out.println("1.전체상품구매(구매결정) | 2.장바구니에서 삭제 | 9.뒤로가기");
             System.out.print("메뉴 선택 >");
             String menuNo = scanner.nextLine();
@@ -141,7 +141,7 @@ public class ItemService {
                     stat = purchaseListService.purchaseBefore(loggedInUserId); // 구매 결정하기 전에 장바구니 금액합계 보여주고 결제시키는 것까지 들어있음
                     break;
                 case "2":
-                    stat = cartListDAO.deleteFromCartlist();
+                    stat = cartListDAO.deleteFromCartlist(loggedInUserId);
                     break;
                 case "9":
                     return true; // 반복문 탈출하여 userLoginPassMenu로 복귀
