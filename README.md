@@ -82,7 +82,8 @@
 <details>
   <summary>유스케이스 다이어그램</summary>
 
-  ![image](https://github.com/kimg1623/Shopping-CLI-Java/assets/145963790/ca26d634-302b-419f-89f5-eca2cb1f5442)
+ ![usecase](https://github.com/kimg1623/Shopping-CLI-Java/assets/145963704/12e7f3ec-6000-4b6f-8827-2c6c07f67d3f)
+
 
 
 
@@ -224,11 +225,13 @@
 
 
 #### [9. 내정보확인]
-- 설명
+- 메인 메뉴에서 9번을 입력하면 내정보 확인 탭에 입장하여 이름, 아이디, 비밀번호 등의 본인 정보를 확인할 수 있습니다.
+- 수정을 누르면 비밀번호, 주소, 전화번호를 변경할 수 있습니다.
 
-| 상품전체보기 |
-|----------|
-|이미지|
+| 내정보확인 | 내정보수정 |
+| --- | --- |
+| <img width="350" alt="내정보확인" src="https://github.com/kimg1623/Shopping-CLI-Java/assets/145963704/471d3a40-39f0-4632-8f61-b9e31ad3cbfd"> | <img width="331" alt="내정보수정" src="https://github.com/kimg1623/Shopping-CLI-Java/assets/145963704/911850a9-d692-4f8f-bad4-3835daa84329"> |
+
 
 <br>
 
