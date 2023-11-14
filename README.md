@@ -83,8 +83,7 @@
 <details>
   <summary>유스케이스 다이어그램</summary>
 
- ![usecase](https://github.com/kimg1623/Shopping-CLI-Java/assets/145963704/12e7f3ec-6000-4b6f-8827-2c6c07f67d3f)
-
+ ![image (4)](https://github.com/jyeeeh/Shopping-CLI-Java/assets/145963612/a04ebb93-1788-4e51-98d7-df8a6b5d033b)
 
 
 
@@ -128,6 +127,15 @@
 
 <br>
 
+<details>
+  <summary>ER 다이어그램</summary>
+  
+  ![image](https://github.com/kimg1623/Shopping-CLI-Java/assets/145963790/b421ce09-7b90-4d1d-8587-0829bb2dc023)
+
+</details>
+
+<br>
+
 
 ## 4. 구현 기능
 
@@ -161,8 +169,7 @@
 
 | 패스워드 불일치 | 미등록 아이디 |
 | --- | --- |
-| ![image](https://github.com/kimg1623/Shopping-CLI-Java/assets/145963790/f3e5f591-4a23-4344-9ded-7bdb9ea82821) | ![image](https://github.com/kimg1623/Shopping-CLI-Java/assets/145963790/b99398b4-648d-4225-9689-85a1d172741d)
- |
+| ![image](https://github.com/kimg1623/Shopping-CLI-Java/assets/145963790/f3e5f591-4a23-4344-9ded-7bdb9ea82821) | ![image](https://github.com/kimg1623/Shopping-CLI-Java/assets/145963790/b99398b4-648d-4225-9689-85a1d172741d)|
 
 
 <br>
