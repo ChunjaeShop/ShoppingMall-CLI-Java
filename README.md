@@ -83,8 +83,7 @@
 <details>
   <summary>유스케이스 다이어그램</summary>
 
- ![usecase](https://github.com/kimg1623/Shopping-CLI-Java/assets/145963704/12e7f3ec-6000-4b6f-8827-2c6c07f67d3f)
-
+ ![image (4)](https://github.com/jyeeeh/Shopping-CLI-Java/assets/145963612/a04ebb93-1788-4e51-98d7-df8a6b5d033b)
 
 
 
